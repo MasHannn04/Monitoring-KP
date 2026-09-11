@@ -17,7 +17,7 @@ function get_status_kp($user_id, $db) {
     $status_icon = "fa-users-slash";
     $progress_width = "0%";
 
-    if ($kelompok) {
+    if (!empty($kelompok['id'])) {
         if ($kelompok['status_kelompok'] == 'draft' || $kelompok['status_kelompok'] == 'menunggu_validasi') {
             $status_kp = "Pengajuan Kelompok";
             $status_color = "#FFA94D";

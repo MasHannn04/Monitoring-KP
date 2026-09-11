@@ -8,6 +8,24 @@
         </div>
     </div>
 
+    <?php if(!empty($success_msg)): ?>
+        <div style="background-color: #d4edda; color: #155724; padding: 10px; border-radius: 4px; margin-bottom: 20px;">
+            <i class="fa-solid fa-circle-check"></i> <?= $success_msg ?>
+        </div>
+    <?php endif; ?>
+
+    <div class="card" style="margin-bottom: 20px; background-color: #F4F9FF; border: 1px solid var(--primary-blue);">
+        <h2 style="font-size: 16px; font-weight: 600; margin-bottom: 15px; color: var(--primary-blue);"><i class="fa-solid fa-gear"></i> Pengaturan Pengumuman Akademik</h2>
+        <form method="POST" style="display: flex; gap: 15px; align-items: flex-end; flex-wrap: wrap;">
+            <input type="hidden" name="action" value="update_settings">
+            <div class="form-group" style="flex: 1; min-width: 250px; margin: 0;">
+                <label class="form-label">Tahun Akademik & Semester Aktif</label>
+                <input type="text" name="tahun_akademik" class="form-control" value="<?= htmlspecialchars(get_setting('tahun_akademik')) ?>" placeholder="Cth: 2026/2027 - Ganjil" required>
+            </div>
+            <button type="submit" class="btn btn-primary" style="padding: 8px 20px;"><i class="fa-solid fa-save"></i> Simpan Pengaturan</button>
+        </form>
+    </div>
+
     <div class="dashboard-grid">
         <div class="stat-card">
             <div class="stat-info">

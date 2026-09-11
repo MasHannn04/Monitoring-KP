@@ -1,12 +1,13 @@
 <?php
     $first_name = explode(' ', $_SESSION['nama'])[0];
     $avatar_url = "https://ui-avatars.com/api/?name=" . urlencode($first_name) . "&background=EBF4FF&color=103F80";
-    $p = isset($_GET['p']) ? $_GET['p'] : '';
+    $p = explode('/', uri_string())[0];
 ?>
     <aside class="sidebar">
         <div class="sidebar-header" style="cursor: pointer;" onclick="window.location.href='<?= base_url('koor_dashboard') ?>'">
             <i class="fa-solid fa-graduation-cap" style="font-size: 24px;"></i>
-            <h2>Monitoring<br>Kerja Praktek</h2>
+            <h2 style="font-size: 14px; line-height: 1.4;">Monitoring Kerja Praktek<br><span style="font-size: 11px; font-weight: 500; opacity: 0.8;">Sistem Informasi ITATS</span></h2>
+            <i class="fa-solid fa-chevron-left sidebar-close" onclick="event.stopPropagation(); document.querySelector('.sidebar').classList.remove('open');"></i>
         </div>
         <div class="sidebar-profile">
             <img src="<?= $avatar_url ?>" alt="Profile" style="width: 60px; height: 60px; border-radius: 50%; margin-bottom: 10px; object-fit: cover;">

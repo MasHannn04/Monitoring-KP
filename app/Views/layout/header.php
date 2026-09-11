@@ -4,10 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= isset($page_title) ? $page_title : 'Sistem Informasi Kerja Praktek' ?></title>
-    <link rel="stylesheet" href="<?= base_url('asset/css/style.css') ?>?v=<?= filemtime(FCPATH . 'asset/css/style.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('asset/css/style.css') ?>?v=<?= time() ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Tambahan style spesifik bisa ditaruh di sini jika diperlukan */
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+        }
         .form-group { margin-bottom: 20px; }
         .form-label { display: block; margin-bottom: 8px; font-size: 13px; font-weight: 600; color: var(--text-dark); }
         .form-control { width: 100%; padding: 10px 15px; font-size: 14px; border: 1px solid var(--border-color); border-radius: 6px; outline: none; transition: border-color 0.2s; }

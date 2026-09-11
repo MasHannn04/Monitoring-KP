@@ -13,6 +13,42 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'koordinator') {
 }
 $db = \Config\Database::connect();
 
+$error = '';
+$success = '';
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $action = $_POST['action'] ?? '';
+    $user_id = (int)$_POST['id'];
+    
+    if ($action == 'edit') {
+        $nama = $db->escapeString($_POST['nama']);
+        $npm_nip = $db->escapeString($_POST['npm_nip']);
+        $password = $_POST['password'];
+        
+        // Validasi Format NIP
+        if (!preg_match('/^\d{12}$/', $npm_nip)) {
+            $error = "Format NIP tidak valid! Harap masukkan 12 digit angka.";
+        } else {
+            // Cek duplikasi
+            $cek = $db->query("SELECT id FROM users WHERE npm_nip = '$npm_nip' AND id != $user_id");
+            if($cek && $cek->getNumRows() > 0) {
+                $error = "Dosen dengan NIP tersebut sudah terdaftar!";
+            } else {
+                if (!empty($password)) {
+                    $pass_esc = $db->escapeString($password);
+                    $db->query("UPDATE users SET nama = '$nama', npm_nip = '$npm_nip', password = '$pass_esc' WHERE id = $user_id AND role = 'dosen'");
+                } else {
+                    $db->query("UPDATE users SET nama = '$nama', npm_nip = '$npm_nip' WHERE id = $user_id AND role = 'dosen'");
+                }
+                $success = 'Data dosen berhasil diupdate.';
+            }
+        }
+    } elseif ($action == 'delete') {
+        $db->query("DELETE FROM users WHERE id = $user_id AND role = 'dosen'");
+        $success = 'Data dosen berhasil dihapus.';
+    }
+}
+
 // Get list of Dosen
 $q_dosen = $db->query("SELECT * FROM users WHERE role = 'dosen' ORDER BY nama ASC");
 $dosen_list = [];

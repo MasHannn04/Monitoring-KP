@@ -21,16 +21,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $npm = $db->escapeString($_POST['npm_nip']);
     $password = $db->escapeString($_POST['password']);
     
-    // Cek duplikasi
-    $cek = $db->query("SELECT id FROM users WHERE npm_nip = '$npm'");
-    if($cek && $cek->getNumRows() > 0) {
-        $error = "Mahasiswa dengan NPM tersebut sudah terdaftar!";
+    // Cek format NPM (xx.xxxx.x.xxxxx)
+    if (!preg_match('/^\d{2}\.\d{4}\.\d{1}\.\d{5}$/', $npm)) {
+        $error = "Format NPM tidak valid! Harap gunakan format: xx.xxxx.x.xxxxx (contoh: 06.2020.1.07345)";
     } else {
-        $insert = $db->query("INSERT INTO users (npm_nip, nama, password, role) VALUES ('$npm', '$nama', '$password', 'mahasiswa')");
-        if($insert) {
-            $success = "Mahasiswa berhasil didaftarkan!";
+        // Cek duplikasi
+        $cek = $db->query("SELECT id FROM users WHERE npm_nip = '$npm'");
+        if($cek && $cek->getNumRows() > 0) {
+            $error = "Mahasiswa dengan NPM tersebut sudah terdaftar!";
         } else {
-            $error = "Gagal mendaftarkan mahasiswa.";
+            $insert = $db->query("INSERT INTO users (npm_nip, nama, password, role) VALUES ('$npm', '$nama', '$password', 'mahasiswa')");
+            if($insert) {
+                $success = "Mahasiswa berhasil didaftarkan!";
+            } else {
+                $error = "Gagal mendaftarkan mahasiswa.";
+            }
         }
     }
 }

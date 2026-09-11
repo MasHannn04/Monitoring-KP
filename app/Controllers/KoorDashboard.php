@@ -13,6 +13,15 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'koordinator') {
 }
 $db = \Config\Database::connect();
 
+$success_msg = '';
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['action'] == 'update_settings') {
+    $ta = trim($_POST['tahun_akademik']);
+    if (!empty($ta)) {
+        set_setting('tahun_akademik', $ta);
+        $success_msg = 'Pengaturan Tahun Akademik / Semester berhasil diperbarui.';
+    }
+}
+
 // Stats matching HTML design
 $q1 = $db->query("SELECT COUNT(*) as c FROM instansi WHERE status_izin = 'menunggu'");
 $izin_baru = $q1->getRowArray()['c'];

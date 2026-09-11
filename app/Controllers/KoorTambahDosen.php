@@ -21,16 +21,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $npm = $db->escapeString($_POST['npm_nip']);
     $password = $db->escapeString($_POST['password']);
     
-    // Cek duplikasi
-    $cek = $db->query("SELECT id FROM users WHERE npm_nip = '$npm'");
-    if($cek && $cek->getNumRows() > 0) {
-        $error = "Dosen dengan NIP tersebut sudah terdaftar!";
+    // Cek format NIP (12 angka)
+    if (!preg_match('/^\d{12}$/', $npm)) {
+        $error = "Format NIP tidak valid! Harap masukkan 12 digit angka tanpa spasi atau tanda baca.";
     } else {
-        $insert = $db->query("INSERT INTO users (npm_nip, nama, password, role) VALUES ('$npm', '$nama', '$password', 'dosen')");
-        if($insert) {
-            $success = "Dosen berhasil didaftarkan!";
+        // Cek duplikasi
+        $cek = $db->query("SELECT id FROM users WHERE npm_nip = '$npm'");
+        if($cek && $cek->getNumRows() > 0) {
+            $error = "Dosen dengan NIP tersebut sudah terdaftar!";
         } else {
-            $error = "Gagal mendaftarkan dosen.";
+            $insert = $db->query("INSERT INTO users (npm_nip, nama, password, role) VALUES ('$npm', '$nama', '$password', 'dosen')");
+            if($insert) {
+                $success = "Dosen berhasil didaftarkan!";
+            } else {
+                $error = "Gagal mendaftarkan dosen.";
+            }
         }
     }
 }

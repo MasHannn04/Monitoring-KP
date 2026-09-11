@@ -28,7 +28,7 @@ $nilai_final = null;
 $huruf_final = '-';
 $nilai_perusahaan_done = false;
 
-if ($kelompok) {
+if (!empty($kelompok['id'])) {
     $kel_id = $kelompok['id'];
     $ql = $db->query("SELECT * FROM laporan_akhir WHERE kelompok_id = $kel_id");
     $laporan_data = null;

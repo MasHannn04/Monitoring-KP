@@ -19,8 +19,7 @@ if (isset($_COOKIE['remember_token'])) {
     setcookie('remember_token', '', time() - 3600, "/");
 }
 
-session_unset();
-session_destroy();
+$session->destroy();
 return redirect()->to(base_url('login'));
 
     }

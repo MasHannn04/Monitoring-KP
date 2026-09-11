@@ -48,8 +48,7 @@
             <div class="card">
                 <h2 style="font-size: 16px; font-weight: 600; margin-bottom: 15px;"><i class="fa-solid fa-bullhorn"></i> Pengumuman Koordinator</h2>
                 <div style="padding: 15px; border-left: 4px solid var(--primary-blue); background-color: #F4F9FF; margin-bottom: 10px; border-radius: 4px;">
-                    <div style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">Jadwal Pendaftaran Kelompok KP Semester Ganjil</div>
-                    <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 5px;"><i class="fa-regular fa-clock"></i> 26 Agustus 2026</div>
+                    <div style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">Jadwal Pendaftaran Kelompok KP <?= htmlspecialchars(get_setting('tahun_akademik')) ?></div>
                     <p style="font-size: 12px; margin: 0; line-height: 1.5;">Pendaftaran kelompok Kerja Praktek telah dibuka. Silakan segera bentuk kelompok dengan maksimal 3 anggota dan ajukan melalui menu Pengajuan Kelompok.</p>
                 </div>
             </div>

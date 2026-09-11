@@ -61,7 +61,7 @@
     <div class="card">
         <h2 style="font-size: 16px; font-weight: 600; margin-bottom: 20px;">Jadwal Seminar (Sebagai Pembimbing)</h2>
         <div class="table-responsive">
-            <table class="table" style="font-size: 12px;">
+            <table class="table" style="font-size: 12px; width: 100%; min-width: 700px;">
                 <thead>
                     <tr style="background-color: #f8f9fa;">
                         <th width="5%">No <i class="fa-solid fa-sort" style="color: #ccc; font-size: 10px;"></i></th>
@@ -82,8 +82,8 @@
                     <tr>
                         <td><?= $i++ ?></td>
                         <td style="white-space: nowrap;"><?= htmlspecialchars($s['npm_nip'] ?? '') ?></td>
-                        <td style="min-width: 150px;"><?= htmlspecialchars($s['ketua'] ?? '') ?></td>
-                        <td style="line-height: 1.6;">
+                        <td style="white-space: normal; word-wrap: break-word; min-width: 150px;"><?= htmlspecialchars($s['ketua'] ?? '') ?></td>
+                        <td style="line-height: 1.6; white-space: normal; word-wrap: break-word; min-width: 150px;">
                             <?php if($s['nama_penguji2']): ?>• <?= htmlspecialchars($s['nama_penguji2']) ?><?php else: ?>-<?php endif; ?>
                         </td>
                         <td style="white-space: nowrap;">
@@ -106,7 +106,7 @@
     <div class="card">
         <h2 style="font-size: 16px; font-weight: 600; margin-bottom: 20px;">Jadwal Seminar (Sebagai Penguji)</h2>
         <div class="table-responsive">
-            <table class="table" style="font-size: 12px;">
+            <table class="table" style="font-size: 12px; width: 100%; min-width: 700px;">
                 <thead>
                     <tr style="background-color: #f8f9fa;">
                         <th width="5%">No <i class="fa-solid fa-sort" style="color: #ccc; font-size: 10px;"></i></th>
@@ -127,8 +127,8 @@
                     <tr>
                         <td><?= $i++ ?></td>
                         <td style="white-space: nowrap;"><?= htmlspecialchars($s['npm_nip'] ?? '') ?></td>
-                        <td style="min-width: 150px;"><?= htmlspecialchars($s['ketua'] ?? '') ?></td>
-                        <td style="line-height: 1.6;">
+                        <td style="white-space: normal; word-wrap: break-word; min-width: 150px;"><?= htmlspecialchars($s['ketua'] ?? '') ?></td>
+                        <td style="line-height: 1.6; white-space: normal; word-wrap: break-word; min-width: 150px;">
                             • <?= htmlspecialchars($s['nama_dospem'] ?? '-') ?>
                         </td>
                         <td style="white-space: nowrap;">

@@ -41,7 +41,7 @@
                 <input type="hidden" name="action" value="create_draft">
                 <div class="form-group">
                     <label class="form-label">Tahun Akademik / Semester</label>
-                    <input type="text" class="form-control" value="2026/2027 - Ganjil" readonly style="background-color: #e9ecef;">
+                    <input type="text" class="form-control" value="<?= htmlspecialchars(get_setting('tahun_akademik')) ?>" readonly style="background-color: #e9ecef;">
                 </div>
 
                 <div class="form-group" style="margin-top: 30px;">
@@ -84,7 +84,7 @@
             <!-- DRAFT / TERKUNCI MODE -->
             <div class="form-group">
                 <label class="form-label">Tahun Akademik / Semester</label>
-                <input type="text" class="form-control" value="2026/2027 - Ganjil" readonly style="background-color: #e9ecef;">
+                <input type="text" class="form-control" value="<?= htmlspecialchars(get_setting('tahun_akademik')) ?>" readonly style="background-color: #e9ecef;">
             </div>
             
             <div class="form-group" style="margin-top: 30px;">
