@@ -31,6 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['npm_nip'] = $user['npm_nip'];
         $_SESSION['nama'] = $user['nama'];
         $_SESSION['role'] = $user['role'];
+        $_SESSION['prodi'] = $user['prodi']; // Tambahan prodi untuk Dosen
         $_SESSION['last_activity'] = time(); // For session timeout
         
         // Remember me

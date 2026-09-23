@@ -36,15 +36,15 @@ if (!empty($kelompok['id'])) {
         $laporan_data = $ql->getRowArray();
     }
     
-    $qs = $db->query("SELECT nilai_pembimbing, nilai_penguji2 FROM seminar WHERE kelompok_id = $kel_id ORDER BY id DESC LIMIT 1");
-    if($qs && $qs->getNumRows() > 0) {
-        $sem = $qs->getRowArray();
-        if ($sem['nilai_pembimbing'] !== null && $sem['nilai_penguji2'] !== null) {
+    $qs = $db->query("SELECT nilai_penguji1, nilai_penguji2 FROM anggota_kelompok WHERE kelompok_id = $kel_id AND mahasiswa_id = $user_id");
+    $sem = $qs->getRowArray();
+    if ($sem) {
+        if ($sem['nilai_penguji1'] !== null && $sem['nilai_penguji2'] !== null) {
             if ($laporan_data && $laporan_data['nilai_perusahaan'] !== null) {
-                $nilai_final = ($sem['nilai_pembimbing'] + $sem['nilai_penguji2'] + $laporan_data['nilai_perusahaan']) / 3;
+                $nilai_final = ((($sem['nilai_penguji1'] + $sem['nilai_penguji2']) / 2) + $laporan_data['nilai_perusahaan']) / 2;
                 $nilai_perusahaan_done = true;
             } else {
-                $nilai_final = ($sem['nilai_pembimbing'] + $sem['nilai_penguji2']) / 2;
+                $nilai_final = ($sem['nilai_penguji1'] + $sem['nilai_penguji2']) / 2;
                 $nilai_perusahaan_done = false;
             }
             if($nilai_final <= 40) $huruf_final = 'E';

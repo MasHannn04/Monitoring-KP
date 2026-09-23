@@ -24,6 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $nama = $db->escapeString($_POST['nama']);
         $npm_nip = $db->escapeString($_POST['npm_nip']);
         $password = $_POST['password'];
+        $prodi = $db->escapeString($_POST['prodi'] ?? 'Sistem Informasi');
         
         // Validasi Format NIP
         if (!preg_match('/^\d{12}$/', $npm_nip)) {
@@ -36,9 +37,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             } else {
                 if (!empty($password)) {
                     $pass_esc = $db->escapeString($password);
-                    $db->query("UPDATE users SET nama = '$nama', npm_nip = '$npm_nip', password = '$pass_esc' WHERE id = $user_id AND role = 'dosen'");
+                    $db->query("UPDATE users SET nama = '$nama', npm_nip = '$npm_nip', password = '$pass_esc', prodi = '$prodi' WHERE id = $user_id AND role = 'dosen'");
                 } else {
-                    $db->query("UPDATE users SET nama = '$nama', npm_nip = '$npm_nip' WHERE id = $user_id AND role = 'dosen'");
+                    $db->query("UPDATE users SET nama = '$nama', npm_nip = '$npm_nip', prodi = '$prodi' WHERE id = $user_id AND role = 'dosen'");
                 }
                 $success = 'Data dosen berhasil diupdate.';
             }

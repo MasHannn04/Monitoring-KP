@@ -63,11 +63,11 @@
                     <div style="position: absolute; left: 11px; top: 10px; bottom: 10px; width: 2px; background-color: #e9ecef; z-index: 1;"></div>
 
                     <div style="display: flex; gap: 15px; align-items: flex-start; position: relative; z-index: 2;">
-                        <div style="width: 24px; height: 24px; border-radius: 50%; background-color: <?= ($progress_width == '0%' || $progress_width == '5%') ? '#e9ecef' : 'var(--success-green)' ?>; display: flex; align-items: center; justify-content: center; color: white; font-size: 10px;">
+                        <div style="width: 24px; height: 24px; border-radius: 50%; background-color: <?= (intval($progress_width) < 20) ? '#e9ecef' : 'var(--success-green)' ?>; display: flex; align-items: center; justify-content: center; color: white; font-size: 10px;">
                             <i class="fa-solid fa-check"></i>
                         </div>
                         <div>
-                            <div style="font-size: 13px; font-weight: 600; <?= ($progress_width == '0%' || $progress_width == '5%') ? 'color: var(--text-muted);' : '' ?>">1. Pendaftaran Kelompok</div>
+                            <div style="font-size: 13px; font-weight: 600; <?= (intval($progress_width) < 20) ? 'color: var(--text-muted);' : '' ?>">1. Pembentukan Kelompok</div>
                             <div style="font-size: 11px; color: var(--text-muted);">Bentuk kelompok (Min 1, Max 3)</div>
                         </div>
                     </div>
@@ -78,7 +78,7 @@
                         </div>
                         <div>
                             <div style="font-size: 13px; font-weight: 600; <?= (intval($progress_width) < 40) ? 'color: var(--text-muted);' : '' ?>">2. Pengajuan Izin KP</div>
-                            <div style="font-size: 11px; color: var(--text-muted);">Isi data instansi/perusahaan tujuan</div>
+                            <div style="font-size: 11px; color: var(--text-muted);">Menyerahkan surat izin KP ke perusahaan</div>
                         </div>
                     </div>
 
@@ -88,17 +88,27 @@
                         </div>
                         <div>
                             <div style="font-size: 13px; font-weight: 600; <?= (intval($progress_width) < 60) ? 'color: var(--text-muted);' : '' ?>">3. Pengajuan Bimbingan</div>
-                            <div style="font-size: 11px; color: var(--text-muted);">Pilih usulan dosen pembimbing</div>
+                            <div style="font-size: 11px; color: var(--text-muted);">Mengajukan usulan dosen pembimbing</div>
                         </div>
                     </div>
 
+                    <div style="display: flex; gap: 15px; align-items: flex-start; position: relative; z-index: 2;">
+                        <div style="width: 24px; height: 24px; border-radius: 50%; background-color: <?= (intval($progress_width) < 70) ? '#e9ecef' : 'var(--success-green)' ?>; display: flex; align-items: center; justify-content: center; color: white; font-size: 10px;">
+                            <i class="fa-solid fa-check"></i>
+                        </div>
+                        <div>
+                            <div style="font-size: 13px; font-weight: 600; <?= (intval($progress_width) < 70) ? 'color: var(--text-muted);' : '' ?>">4. Pelaksanaan dan Laporan</div>
+                            <div style="font-size: 11px; color: var(--text-muted);">Melaksanakan KP dan menyusun laporan</div>
+                        </div>
+                    </div>
+                    
                     <div style="display: flex; gap: 15px; align-items: flex-start; position: relative; z-index: 2;">
                         <div style="width: 24px; height: 24px; border-radius: 50%; background-color: <?= (intval($progress_width) < 80) ? '#e9ecef' : 'var(--success-green)' ?>; display: flex; align-items: center; justify-content: center; color: white; font-size: 10px;">
                             <i class="fa-solid fa-check"></i>
                         </div>
                         <div>
-                            <div style="font-size: 13px; font-weight: 600; <?= (intval($progress_width) < 80) ? 'color: var(--text-muted);' : '' ?>">4. Pelaksanaan & Laporan</div>
-                            <div style="font-size: 11px; color: var(--text-muted);">Kerjakan KP & catat kemajuan</div>
+                            <div style="font-size: 13px; font-weight: 600; <?= (intval($progress_width) < 80) ? 'color: var(--text-muted);' : '' ?>">5. Pendaftaran Seminar</div>
+                            <div style="font-size: 11px; color: var(--text-muted);">Ajukan jadwal sidang KP</div>
                         </div>
                     </div>
                     
@@ -107,8 +117,8 @@
                             <i class="fa-solid fa-check"></i>
                         </div>
                         <div>
-                            <div style="font-size: 13px; font-weight: 600; <?= (intval($progress_width) < 100) ? 'color: var(--text-muted);' : '' ?>">5. Pendaftaran Seminar</div>
-                            <div style="font-size: 11px; color: var(--text-muted);">Ajukan jadwal sidang KP</div>
+                            <div style="font-size: 13px; font-weight: 600; <?= (intval($progress_width) < 100) ? 'color: var(--text-muted);' : '' ?>">6. Pengumpulan Laporan</div>
+                            <div style="font-size: 11px; color: var(--text-muted);">Upload revisi final & nilai perusahaan</div>
                         </div>
                     </div>
                 </div>

@@ -12,7 +12,7 @@
         <div class="sidebar-profile">
             <img src="<?= $avatar_url ?>" alt="Profile" style="width: 60px; height: 60px; border-radius: 50%; margin-bottom: 10px; object-fit: cover;">
             <h3><?= htmlspecialchars($_SESSION['nama']) ?></h3>
-            <p>Dosen Informatika</p>
+            <p>Dosen <?= htmlspecialchars($_SESSION['prodi'] ?? 'Sistem Informasi') ?></p>
         </div>
         <ul class="sidebar-menu">
             <li><a href="<?= base_url('dosen_dashboard') ?>" class="<?= ($p == 'dosen_dashboard') ? 'active' : '' ?>"><i class="fa-solid fa-house"></i> Dashboard</a></li>

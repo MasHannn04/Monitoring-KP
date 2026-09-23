@@ -16,36 +16,40 @@ $db = \Config\Database::connect();
 
 $seminar_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nilai'])) {
-    $nilai = (float)$_POST['nilai'];
-    $revisi = $db->escapeString($_POST['revisi']);
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nilai_mahasiswa'])) {
     $dosen_id = $_SESSION['user_id'];
     
     $qs = $db->query("SELECT s.*, k.dospem_id FROM seminar s JOIN kelompok k ON s.kelompok_id = k.id WHERE s.id = $seminar_id");
     $sem = $qs->getRowArray();
     
-    $updates = [];
-    if($sem['dospem_id'] == $dosen_id) {
-        $updates[] = "nilai_pembimbing = $nilai, revisi_pembimbing = '$revisi'";
-    }
-    if($sem['penguji1_id'] == $dosen_id) {
-        $updates[] = "nilai_penguji1 = $nilai, revisi_penguji1 = '$revisi'";
-    }
-    if($sem['penguji2_id'] == $dosen_id) {
-        $updates[] = "nilai_penguji2 = $nilai, revisi_penguji2 = '$revisi'";
-    }
+    $is_penguji1 = ($sem['penguji1_id'] == $dosen_id);
+    $is_penguji2 = ($sem['penguji2_id'] == $dosen_id);
     
-    if(!empty($updates)) {
-        $sql = "UPDATE seminar SET " . implode(", ", $updates) . " WHERE id = $seminar_id";
-        $db->query($sql);
+    foreach ($_POST['nilai_mahasiswa'] as $mhs_id => $nilai) {
+        $nilai_val = (float)$nilai;
+        $revisi_val = $db->escapeString($_POST['revisi_mahasiswa'][$mhs_id] ?? '');
+        
+        $updates = [];
+        if ($is_penguji1) {
+            $updates[] = "nilai_penguji1 = $nilai_val, revisi_penguji1 = '$revisi_val'";
+        }
+        if ($is_penguji2) {
+            $updates[] = "nilai_penguji2 = $nilai_val, revisi_penguji2 = '$revisi_val'";
+        }
+        
+        if (!empty($updates)) {
+            $sql = "UPDATE anggota_kelompok SET " . implode(", ", $updates) . " WHERE kelompok_id = " . $sem['kelompok_id'] . " AND mahasiswa_id = " . (int)$mhs_id;
+            $db->query($sql);
+        }
     }
     
     $_SESSION['swal_msg'] = 'Nilai dan revisi berhasil disimpan!';
-            $_SESSION['swal_type'] = 'success';
-            return redirect()->to(base_url('dosen_detail_sidang?id=' . $seminar_id));
+    $_SESSION['swal_type'] = 'success';
+    return redirect()->to(base_url('dosen_detail_sidang?id=' . $seminar_id));
 }
 
 $seminar_data = null;
+$anggota_list = [];
 if($seminar_id > 0) {
     $q = $db->query("
         SELECT s.*, u.nama as ketua, u.npm_nip, k.dospem_id, b.judul_laporan,
@@ -61,6 +65,16 @@ if($seminar_id > 0) {
     ");
     if($q && $q->getNumRows() > 0) {
         $seminar_data = $q->getRowArray();
+        
+        // Fetch anggota_list
+        $q_anggota = $db->query("
+            SELECT ak.*, u.nama, u.npm_nip 
+            FROM anggota_kelompok ak
+            JOIN users u ON ak.mahasiswa_id = u.id
+            WHERE ak.kelompok_id = " . $seminar_data['kelompok_id'] . "
+            ORDER BY ak.is_ketua DESC, u.npm_nip ASC
+        ");
+        $anggota_list = $q_anggota->getResultArray();
     }
 }
 

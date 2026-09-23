@@ -98,7 +98,7 @@ function check_mhs_workflow($db, $user_id, $required_level) {
 
     // Level 6: Pengumpulan Laporan requires Seminar exists and graded
     if ($required_level >= 6) {
-        $q_sem = $db->query("SELECT id, nilai_pembimbing, nilai_penguji2 FROM seminar WHERE kelompok_id = $kel_id ORDER BY id DESC LIMIT 1");
+        $q_sem = $db->query("SELECT id FROM seminar WHERE kelompok_id = $kel_id ORDER BY id DESC LIMIT 1");
         if ($q_sem->getNumRows() == 0) {
             $state['allowed'] = false;
             $state['message'] = 'Anda belum mendaftar Seminar KP. Anda tidak dapat mengumpulkan Laporan Akhir hingga tahap Seminar dilalui.';
@@ -106,8 +106,9 @@ function check_mhs_workflow($db, $user_id, $required_level) {
             $state['button_text'] = 'Menuju Pendaftaran Seminar';
             return $state;
         } else {
-            $sem = $q_sem->getRowArray();
-            if ($sem['nilai_pembimbing'] === null || $sem['nilai_penguji2'] === null) {
+            $q_ak = $db->query("SELECT nilai_penguji1, nilai_penguji2 FROM anggota_kelompok WHERE kelompok_id = $kel_id AND mahasiswa_id = $user_id");
+            $ak = $q_ak->getRowArray();
+            if (!$ak || $ak['nilai_penguji1'] === null || $ak['nilai_penguji2'] === null) {
                 $state['allowed'] = false;
                 $state['message'] = 'Nilai sidang Anda belum lengkap dimasukkan oleh seluruh dosen (Pembimbing & Penguji). Anda belum dapat mengumpulkan laporan akhir.';
                 $state['redirect_link'] = 'mhs_dashboard';

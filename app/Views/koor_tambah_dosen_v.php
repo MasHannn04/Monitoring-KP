@@ -29,6 +29,13 @@
                 <label class="form-label">NIP</label>
                 <input type="text" name="npm_nip" class="form-control" placeholder="Masukkan NIP dosen" required>
             </div>
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label class="form-label" style="display: block; margin-bottom: 5px;">Program Studi</label>
+                <select name="prodi" class="form-control" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                    <option value="Sistem Informasi">Sistem Informasi</option>
+                    <option value="Teknik Informatika">Teknik Informatika</option>
+                </select>
+            </div>
             <div class="form-group">
                 <label class="form-label">Password Sementara</label>
                 <input type="password" name="password" class="form-control" placeholder="Masukkan password untuk login dosen" required>

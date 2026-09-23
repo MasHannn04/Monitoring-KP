@@ -20,6 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nama = $db->escapeString($_POST['nama']);
     $npm = $db->escapeString($_POST['npm_nip']);
     $password = $db->escapeString($_POST['password']);
+    $prodi = $db->escapeString($_POST['prodi'] ?? 'Sistem Informasi');
     
     // Cek format NIP (12 angka)
     if (!preg_match('/^\d{12}$/', $npm)) {
@@ -30,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if($cek && $cek->getNumRows() > 0) {
             $error = "Dosen dengan NIP tersebut sudah terdaftar!";
         } else {
-            $insert = $db->query("INSERT INTO users (npm_nip, nama, password, role) VALUES ('$npm', '$nama', '$password', 'dosen')");
+            $insert = $db->query("INSERT INTO users (npm_nip, nama, password, role, prodi) VALUES ('$npm', '$nama', '$password', 'dosen', '$prodi')");
             if($insert) {
                 $success = "Dosen berhasil didaftarkan!";
             } else {

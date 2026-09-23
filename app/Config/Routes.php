@@ -24,6 +24,7 @@ $routes->match(['get', 'post'], 'koor_detail_kelompok', 'KoorDetailKelompok::ind
 $routes->match(['get', 'post'], 'koor_detail_seminar', 'KoorDetailSeminar::index');
 $routes->match(['get', 'post'], 'koor_list_dosen', 'KoorListDosen::index');
 $routes->match(['get', 'post'], 'koor_list_mahasiswa', 'KoorListMahasiswa::index');
+$routes->match(['get', 'post'], 'koor_rekap_nilai', 'KoorRekapNilai::index');
 $routes->match(['get', 'post'], 'koor_tambah_dosen', 'KoorTambahDosen::index');
 $routes->match(['get', 'post'], 'koor_tambah_mahasiswa', 'KoorTambahMahasiswa::index');
 $routes->match(['get', 'post'], 'login', 'Login::index');

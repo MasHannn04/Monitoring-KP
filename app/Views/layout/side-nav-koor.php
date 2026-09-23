@@ -22,6 +22,8 @@
             <li><a href="<?= base_url('koor_approval_bimbingan') ?>" class="<?= ($p == 'koor_approval_bimbingan' || $p == 'koor_detail_bimbingan') ? 'active' : '' ?>"><i class="fa-solid fa-chalkboard-user"></i> Approval Bimbingan</a></li>
             <li><a href="<?= base_url('koor_approval_seminar') ?>" class="<?= ($p == 'koor_approval_seminar' || $p == 'koor_detail_seminar') ? 'active' : '' ?>"><i class="fa-solid fa-person-chalkboard"></i> Approval Seminar</a></li>
             <li><a href="<?= base_url('koor_approval_laporan') ?>" class="<?= ($p == 'koor_approval_laporan') ? 'active' : '' ?>"><i class="fa-solid fa-book"></i> Approval Laporan Akhir</a></li>
+            <li class="menu-category">Rekap Data</li>
+            <li><a href="<?= base_url('koor_rekap_nilai') ?>" class="<?= ($p == 'koor_rekap_nilai') ? 'active' : '' ?>"><i class="fa-solid fa-star-half-stroke"></i> Rekap Nilai KP</a></li>
             <li class="menu-category">Manajemen User</li>
             <li><a href="<?= base_url('koor_tambah_mahasiswa') ?>" class="<?= ($p == 'koor_tambah_mahasiswa') ? 'active' : '' ?>"><i class="fa-solid fa-user-plus"></i> Tambah Mahasiswa</a></li>
             <li><a href="<?= base_url('koor_list_mahasiswa') ?>" class="<?= ($p == 'koor_list_mahasiswa') ? 'active' : '' ?>"><i class="fa-solid fa-users-viewfinder"></i> Daftar Mahasiswa</a></li>

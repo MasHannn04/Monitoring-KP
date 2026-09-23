@@ -87,7 +87,8 @@
                                 <?php
                                 $peran = [];
                                 if ($_SESSION['user_id'] == $seminar_data['dospem_id']) $peran[] = 'Pembimbing';
-                                if ($_SESSION['user_id'] == $seminar_data['penguji2_id']) $peran[] = 'Penguji';
+                                if ($_SESSION['user_id'] == $seminar_data['penguji1_id']) $peran[] = 'Penguji 1';
+                                if ($_SESSION['user_id'] == $seminar_data['penguji2_id']) $peran[] = 'Penguji 2';
                                 echo !empty($peran) ? implode(', ', $peran) : '-';
                                 ?>
                             </div>
@@ -96,31 +97,30 @@
                     
                     <div class="table-responsive">
                         <table class="table" style="border: 1px solid var(--border-color); margin-bottom: 0;">
-                            <tbody>
+                            <thead>
                                 <tr style="background-color: #f8f9fa;">
-                                    <td width="30%" style="font-weight: 600; color: var(--text-muted);">Pembimbing</td>
-                                    <td width="40%" style="font-weight: 500;"><?= htmlspecialchars($seminar_data['nama_dospem'] ?? '-') ?></td>
-                                    <td width="15%" align="right" style="color: var(--text-muted);">Nilai :</td>
-                                    <td width="15%" align="center" style="font-weight: 700; font-size: 14px; color: var(--primary-blue);"><?= $seminar_data['nilai_pembimbing'] !== null ? $seminar_data['nilai_pembimbing'] : '-' ?></td>
+                                    <th>NPM</th>
+                                    <th>Nama Mahasiswa</th>
+                                    <th style="text-align: center;">Penguji 1</th>
+                                    <th style="text-align: center;">Penguji 2</th>
+                                    <th style="text-align: center;">Rata-rata Dosen</th>
                                 </tr>
-                                <tr>
-                                    <td style="font-weight: 600; color: var(--text-muted);">Penguji</td>
-                                    <td style="font-weight: 500;"><?= htmlspecialchars($seminar_data['nama_penguji2'] ?? '-') ?></td>
-                                    <td align="right" style="color: var(--text-muted);">Nilai :</td>
-                                    <td align="center" style="font-weight: 700; font-size: 14px; color: var(--primary-blue);"><?= $seminar_data['nilai_penguji2'] !== null ? $seminar_data['nilai_penguji2'] : '-' ?></td>
-                                </tr>
-                                <?php
-                                    $total_nilai = 0;
-                                    $count = 0;
-                                    if($seminar_data['nilai_pembimbing'] !== null) { $total_nilai += $seminar_data['nilai_pembimbing']; $count++; }
-                                    if($seminar_data['nilai_penguji2'] !== null) { $total_nilai += $seminar_data['nilai_penguji2']; $count++; }
-                                    $rata_rata = $count > 0 ? number_format($total_nilai / $count, 2) : '-';
+                            </thead>
+                            <tbody>
+                                <?php foreach($anggota_list as $ak): 
+                                    $n1 = $ak['nilai_penguji1'];
+                                    $n2 = $ak['nilai_penguji2'];
+                                    $rata2 = '-';
+                                    if($n1 !== null && $n2 !== null) $rata2 = number_format(($n1 + $n2) / 2, 2);
                                 ?>
-                                <tr style="background-color: #F0FAF0;">
-                                    <td colspan="2" align="right" style="font-weight: 600; color: var(--success-green);">Total Penilaian Akhir KP (Rata-rata)</td>
-                                    <td align="right" style="font-weight: 600; color: var(--success-green);">Total Nilai :</td>
-                                    <td align="center" style="font-weight: 700; font-size: 16px; color: var(--success-green);"><?= $rata_rata ?></td>
+                                <tr>
+                                    <td><?= htmlspecialchars($ak['npm_nip']) ?></td>
+                                    <td><?= htmlspecialchars($ak['nama']) ?></td>
+                                    <td align="center" style="font-weight: 700; color: var(--primary-blue);"><?= $n1 !== null ? $n1 : '-' ?></td>
+                                    <td align="center" style="font-weight: 700; color: var(--primary-blue);"><?= $n2 !== null ? $n2 : '-' ?></td>
+                                    <td align="center" style="font-weight: 700; color: var(--success-green);"><?= $rata2 ?></td>
                                 </tr>
+                                <?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>
@@ -132,18 +132,18 @@
                 </div>
 
                 <?php
-                // Get existing grade if any
-                $existing_nilai = '';
-                $existing_revisi = '';
-                if ($_SESSION['user_id'] == $seminar_data['dospem_id'] && $seminar_data['nilai_pembimbing'] !== null) {
-                    $existing_nilai = $seminar_data['nilai_pembimbing'];
-                    $existing_revisi = $seminar_data['revisi_pembimbing'];
-                } else if ($_SESSION['user_id'] == $seminar_data['penguji2_id'] && $seminar_data['nilai_penguji2'] !== null) {
-                    $existing_nilai = $seminar_data['nilai_penguji2'];
-                    $existing_revisi = $seminar_data['revisi_penguji2'];
+                // Check if any existing grade has been filled by current user
+                $has_graded = false;
+                foreach($anggota_list as $ak) {
+                    if ($_SESSION['user_id'] == $seminar_data['penguji1_id'] && $ak['nilai_penguji1'] !== null) {
+                        $has_graded = true; break;
+                    }
+                    if ($_SESSION['user_id'] == $seminar_data['penguji2_id'] && $ak['nilai_penguji2'] !== null) {
+                        $has_graded = true; break;
+                    }
                 }
                 ?>
-                <div id="form-penilaian" style="display: <?= $existing_nilai !== '' ? 'block' : 'none' ?>; margin-top: 30px; padding: 25px; border: 1px solid var(--border-color); border-radius: 8px; background-color: #f8f9fa;">
+                <div id="form-penilaian" style="display: <?= $has_graded ? 'block' : 'none' ?>; margin-top: 30px; padding: 25px; border: 1px solid var(--border-color); border-radius: 8px; background-color: #f8f9fa;">
                     <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 20px; color: var(--primary-blue);"><i class="fa-solid fa-star"></i> Form Penilaian & Revisi</h3>
                     
                     <!-- Tabel Konversi Nilai -->
@@ -174,16 +174,32 @@
                     </div>
 
                     <form method="POST">
-                        <div class="form-group">
-                            <label class="form-label">Nilai Angka (0-100)</label>
-                            <input type="number" name="nilai" class="form-control" min="0" max="100" step="0.01" required value="<?= htmlspecialchars((string)$existing_nilai) ?>">
+                        <?php foreach($anggota_list as $index => $ak): 
+                            $ex_nilai = '';
+                            $ex_revisi = '';
+                            if ($_SESSION['user_id'] == $seminar_data['penguji1_id'] && $ak['nilai_penguji1'] !== null) {
+                                $ex_nilai = $ak['nilai_penguji1'];
+                                $ex_revisi = $ak['revisi_penguji1'];
+                            } else if ($_SESSION['user_id'] == $seminar_data['penguji2_id'] && $ak['nilai_penguji2'] !== null) {
+                                $ex_nilai = $ak['nilai_penguji2'];
+                                $ex_revisi = $ak['revisi_penguji2'];
+                            }
+                        ?>
+                        <div style="background: white; padding: 15px; border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 20px;">
+                            <h4 style="font-size: 14px; font-weight: 600; color: var(--primary-blue); margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px;">Mahasiswa <?= $index+1 ?>: <?= htmlspecialchars($ak['nama']) ?> (<?= htmlspecialchars($ak['npm_nip']) ?>)</h4>
+                            <div class="form-group">
+                                <label class="form-label">Nilai Angka (0-100)</label>
+                                <input type="number" name="nilai_mahasiswa[<?= $ak['mahasiswa_id'] ?>]" class="form-control" min="0" max="100" step="0.01" required value="<?= htmlspecialchars((string)$ex_nilai) ?>">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Catatan Revisi / Masukan</label>
+                                <textarea name="revisi_mahasiswa[<?= $ak['mahasiswa_id'] ?>]" class="form-control" rows="3" required placeholder="Tuliskan catatan revisi untuk mahasiswa..."><?= htmlspecialchars($ex_revisi) ?></textarea>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label class="form-label">Catatan Revisi / Masukan</label>
-                            <textarea name="revisi" class="form-control" rows="4" required placeholder="Tuliskan catatan revisi untuk mahasiswa..."><?= htmlspecialchars($existing_revisi) ?></textarea>
-                        </div>
+                        <?php endforeach; ?>
+                        
                         <div style="display: flex; gap: 10px;">
-                            <button type="submit" class="btn btn-success"><i class="fa-solid fa-save"></i> Simpan Penilaian</button>
+                            <button type="submit" class="btn btn-success"><i class="fa-solid fa-save"></i> Simpan Semua Penilaian</button>
                             <button type="button" class="btn btn-primary" style="background-color: #6c757d;" onclick="document.getElementById('form-penilaian').style.display='none';"><i class="fa-solid fa-times"></i> Batal</button>
                         </div>
                     </form>
