@@ -105,7 +105,7 @@
         <i class="fa-solid fa-graduation-cap"></i>
     </div>
     <h1 class="login-title">SIM KP ITATS</h1>
-    <p class="login-subtitle">Sistem Informasi Monitoring Kerja Praktek<br><span style="font-size: 14px; opacity: 0.8; font-weight: 500;">Jurusan Sistem Informasi - ITATS</span></p>
+    <p class="login-subtitle">Sistem Informasi Monitoring Kerja Praktek<br><span style="font-size: 14px; opacity: 0.8; font-weight: 500;">Program Studi Sistem Informasi - ITATS</span></p>
 
     <?php if(!empty($error)): ?>
     <div class="alert-error">
@@ -130,6 +130,6 @@
     </form>
     
     <div style="margin-top: 30px; font-size: 12px; color: var(--text-muted);">
-        &copy; <?= date('Y') ?> Jurusan Sistem Informasi - Institut Teknologi Adhi Tama Surabaya
+        &copy; <?= date('Y') ?> Program Studi Sistem Informasi - Institut Teknologi Adhi Tama Surabaya
     </div>
 </div>

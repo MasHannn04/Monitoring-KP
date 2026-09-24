@@ -1,5 +1,5 @@
         <footer class="footer">
-            Copyright <?= date('Y') ?> &copy; Jurusan Sistem Informasi - Institut Teknologi Adhi Tama Surabaya
+            Copyright <?= date('Y') ?> &copy; Program Studi Sistem Informasi - Institut Teknologi Adhi Tama Surabaya
         </footer>
     </main>
     <script>
