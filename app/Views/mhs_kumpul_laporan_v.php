@@ -119,8 +119,8 @@
                                     <?php endif; ?>
                                 </td>
                                 <td>
-                                    <?php if ($laporan_data['nilai_akhir_huruf']): ?>
-                                        <div style="font-size: 20px; font-weight: 700; color: var(--primary-blue);"><?= htmlspecialchars($laporan_data['nilai_akhir_huruf']) ?></div>
+                                    <?php if ($huruf_final !== '-'): ?>
+                                        <div style="font-size: 20px; font-weight: 700; color: var(--primary-blue);"><?= htmlspecialchars($huruf_final) ?></div>
                                     <?php else: ?>
                                         <span style="color: var(--text-muted);">-</span>
                                     <?php endif; ?>
