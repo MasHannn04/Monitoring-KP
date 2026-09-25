@@ -81,11 +81,12 @@
                         <h3 style="font-size: 15px; font-weight: 600; margin-bottom: 15px;">Validasi & Plot Dosen</h3>
                         <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 20px;">Tentukan dosen pembimbing dan unggah Surat Tugas beserta berkas pendukung KP untuk diserahkan ke mahasiswa.</p>
                         
+                        <?php if($bimbingan_data['status_bimbingan'] != 'disetujui' && $bimbingan_data['status_bimbingan'] != 'ditolak'): ?>
                         <form method="POST" action="<?= base_url('koor_detail_bimbingan') ?>?id=<?= $bimbingan_id ?>" enctype="multipart/form-data">
                             <input type="hidden" name="bimbingan_id" value="<?= $bimbingan_id ?>">
                             <div style="margin-bottom: 15px;">
                                 <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 5px;">Pilih Dosen Pembimbing</label>
-                                <select name="dospem_id" style="width: 100%; font-size: 12px; padding: 8px; border: 1px solid var(--border-color); border-radius: 4px;">
+                                <select name="dospem_id" required style="width: 100%; font-size: 12px; padding: 8px; border: 1px solid var(--border-color); border-radius: 4px;">
                                     <option value="">-- Pilih Dosen --</option>
                                     <?php foreach($dosen_list as $d): ?>
                                         <option value="<?= $d['id'] ?>"><?= htmlspecialchars($d['nama']) ?></option>
@@ -95,7 +96,7 @@
 
                             <div style="margin-bottom: 15px;">
                                 <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 5px;">Upload Surat Tugas Bimbingan (PDF) (Jika disetujui)</label>
-                                <input type="file" name="surat_tugas" style="width: 100%; font-size: 12px; padding: 5px; border: 1px solid var(--border-color); border-radius: 4px;" accept="application/pdf">
+                                <input type="file" name="surat_tugas" required style="width: 100%; font-size: 12px; padding: 5px; border: 1px solid var(--border-color); border-radius: 4px;" accept="application/pdf">
                             </div>
 
                             <div style="margin-bottom: 20px;">
@@ -105,9 +106,19 @@
 
                             <div style="display: flex; gap: 10px;">
                                 <button type="submit" name="action" value="approve" class="btn btn-success" style="flex: 1; font-size: 13px;"><i class="fa-solid fa-check"></i> Setujui</button>
-                                <button type="submit" name="action" value="reject" class="btn btn-primary" style="flex: 1; font-size: 13px; background-color: #dc3545;"><i class="fa-solid fa-xmark"></i> Tolak</button>
+                                <button type="submit" name="action" value="reject" formnovalidate class="btn btn-primary" style="flex: 1; font-size: 13px; background-color: #dc3545;"><i class="fa-solid fa-xmark"></i> Tolak</button>
                             </div>
                         </form>
+                        <?php else: ?>
+                            <div style="padding: 15px; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 4px; text-align: center; margin-top: 10px;">
+                                <i class="fa-solid fa-circle-check"></i> Pengajuan bimbingan ini telah <strong style="text-transform:uppercase;"><?= $bimbingan_data['status_bimbingan'] ?></strong>.
+                            </div>
+                            <?php if(!empty($bimbingan_data['surat_tugas'])): ?>
+                                <div style="margin-top: 15px; text-align: center;">
+                                    <a href="<?= base_url('view_pdf') ?>?file=<?= urlencode($bimbingan_data['surat_tugas']) ?>" target="_blank" class="btn btn-primary" style="font-size: 12px; padding: 5px 10px; text-decoration: none;"><i class="fa-solid fa-file-pdf"></i> Lihat Surat Tugas Diterbitkan</a>
+                                </div>
+                            <?php endif; ?>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>

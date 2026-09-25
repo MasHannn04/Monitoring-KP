@@ -14,14 +14,12 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'koordinator') {
 $db = \Config\Database::connect();
 
 
-
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
     $id = (int)$_POST['instansi_id'];
     if ($_POST['action'] == 'approve') {
         if (!isset($_FILES['surat_izin']) || $_FILES['surat_izin']['error'] == UPLOAD_ERR_NO_FILE) {
             $_SESSION['swal_msg'] = 'Gagal: Berkas Surat Izin (PDF) harus diunggah untuk menyetujui!';
-            $_SESSION['swal_type'] = 'success';
+            $_SESSION['swal_type'] = 'error';
             return redirect()->to(base_url('koor_approval_izin'));
         }
         $filename = safe_upload_file($_FILES['surat_izin'], FCPATH . 'uploads/', 'izin', ['pdf'], ['application/pdf']);
@@ -35,8 +33,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
         $db->query("UPDATE instansi SET status_izin = 'ditolak' WHERE id = $id");
     }
     $_SESSION['swal_msg'] = 'Status Izin diperbarui!';
-            $_SESSION['swal_type'] = 'success';
-            return redirect()->to(base_url('koor_approval_izin'));
+    $_SESSION['swal_type'] = 'success';
+    return redirect()->to(base_url('koor_approval_izin'));
 }
 
 $menunggu_izin = [];
@@ -46,7 +44,7 @@ $q_izin = $db->query("
     FROM instansi i 
     JOIN kelompok k ON i.kelompok_id = k.id 
     JOIN users u ON k.ketua_id = u.id 
-    WHERE i.status_izin = 'menunggu'
+    WHERE i.status_izin IN ('menunggu', 'disetujui') ORDER BY i.id DESC
 ");
 if($q_izin) {
     foreach ($q_izin->getResultArray() as $row) {

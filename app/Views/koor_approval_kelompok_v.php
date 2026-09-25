@@ -15,19 +15,29 @@
                                 <th>Tanggal Pengajuan</th>
                                 <th>Anggota Kelompok</th>
                                 <th>Status Konfirmasi Anggota</th>
+                                <th>Status Pengajuan</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if (empty($kelompok_list)): ?>
+                            <?php 
+                            $has_menunggu = false;
+                            foreach($kelompok_list as $k) {
+                                if ($k['status_kelompok'] != 'disetujui' && $k['status_kelompok'] != 'ditolak') {
+                                    $has_menunggu = true;
+                                    break;
+                                }
+                            }
+                            if (!$has_menunggu): 
+                            ?>
                             <tr>
                                 <td colspan="4" style="text-align: center; color: var(--text-muted); padding: 20px;">Tidak ada pengajuan kelompok yang menunggu validasi.</td>
                             </tr>
                             <?php else: ?>
-                            <?php foreach($kelompok_list as $k): ?>
+                            <?php foreach($kelompok_list as $k): if ($k['status_kelompok'] != 'disetujui' && $k['status_kelompok'] != 'ditolak'): ?>
                             <tr>
                                 <td><?= date('d-M-Y', strtotime($k['created_at'])) ?></td>
-                                <td>
+                                <td style="white-space: normal; word-wrap: break-word; max-width: 250px;">
                                     <?php $i = 1; foreach($k['members'] as $m): ?>
                                     <div style="<?= $m['is_ketua'] ? 'font-weight: 600; margin-bottom: 3px;' : 'font-size: 12px; color: var(--text-muted);' ?>">
                                         <?= $i++ ?>. <?= htmlspecialchars($m['nama']) ?> <?= $m['is_ketua'] ? '(Ketua)' : '(Anggota)' ?>
@@ -42,10 +52,80 @@
                                     <?php endif; ?>
                                 </td>
                                 <td>
+                                    <?php if($k['status_kelompok'] == 'disetujui'): ?>
+                                        <span class="badge badge-success"><i class="fa-solid fa-check"></i> Disetujui</span>
+                                    <?php else: ?>
+                                        <span class="badge" style="background-color: #FFA94D;"><i class="fa-solid fa-clock"></i> Menunggu Validasi</span>
+                                    <?php endif; ?>
+                                </td>
+                                <td>
                                     <a href="<?= base_url('koor_detail_kelompok') ?>?id=<?= $k['id'] ?>" class="btn btn-primary" style="font-size: 12px; padding: 5px 10px; background-color: #6c757d; text-decoration: none; display: inline-block;"><i class="fa-solid fa-eye"></i> Detail Validasi</a>
                                 </td>
                             </tr>
-                            <?php endforeach; ?>
+                            <?php endif; endforeach; ?>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 30px;">
+                <h2 style="font-size: 16px; font-weight: 600; margin-bottom: 20px;">Riwayat Kelompok (Disetujui)</h2>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Tanggal Pengajuan</th>
+                                <th>Anggota Kelompok</th>
+                                <th>Status Konfirmasi Anggota</th>
+                                <th>Status Pengajuan</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php 
+                            $has_acc = false;
+                            foreach($kelompok_list as $k) {
+                                if ($k['status_kelompok'] == 'disetujui') {
+                                    $has_acc = true;
+                                    break;
+                                }
+                            }
+                            if (!$has_acc): 
+                            ?>
+                            <tr>
+                                <td colspan="5" style="text-align: center; color: var(--text-muted); padding: 20px;">Belum ada kelompok yang disetujui.</td>
+                            </tr>
+                            <?php else: ?>
+                            <?php foreach($kelompok_list as $k): if ($k['status_kelompok'] == 'disetujui'): ?>
+                            <tr>
+                                <td><?= date('d-M-Y', strtotime($k['created_at'])) ?></td>
+                                <td style="white-space: normal; word-wrap: break-word; max-width: 250px;">
+                                    <?php $i = 1; foreach($k['members'] as $m): ?>
+                                    <div style="<?= $m['is_ketua'] ? 'font-weight: 600; margin-bottom: 3px;' : 'font-size: 12px; color: var(--text-muted);' ?>">
+                                        <?= $i++ ?>. <?= htmlspecialchars($m['nama']) ?> <?= $m['is_ketua'] ? '(Ketua)' : '(Anggota)' ?>
+                                    </div>
+                                    <?php endforeach; ?>
+                                </td>
+                                <td>
+                                    <?php if($k['semua_menerima']): ?>
+                                        <span class="badge badge-success"><i class="fa-solid fa-check"></i> Lengkap (Disetujui Anggota)</span>
+                                    <?php else: ?>
+                                        <span class="badge" style="background-color: #FFA94D;"><i class="fa-solid fa-clock"></i> Menunggu Konfirmasi Anggota</span>
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <?php if($k['status_kelompok'] == 'disetujui'): ?>
+                                        <span class="badge badge-success"><i class="fa-solid fa-check"></i> Disetujui</span>
+                                    <?php else: ?>
+                                        <span class="badge" style="background-color: #FFA94D;"><i class="fa-solid fa-clock"></i> Menunggu Validasi</span>
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <a href="<?= base_url('koor_detail_kelompok') ?>?id=<?= $k['id'] ?>" class="btn btn-primary" style="font-size: 12px; padding: 5px 10px; background-color: #6c757d; text-decoration: none; display: inline-block;"><i class="fa-solid fa-eye"></i> Detail Validasi</a>
+                                </td>
+                            </tr>
+                            <?php endif; endforeach; ?>
                             <?php endif; ?>
                         </tbody>
                     </table>

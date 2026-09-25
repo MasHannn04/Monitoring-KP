@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
     if ($_POST['action'] == 'approve') {
         if (!isset($_FILES['surat_tugas']) || $_FILES['surat_tugas']['error'] == UPLOAD_ERR_NO_FILE) {
             $_SESSION['swal_msg'] = 'Gagal: Berkas Surat Tugas (PDF) harus diunggah untuk menyetujui!';
-            $_SESSION['swal_type'] = 'success';
+            $_SESSION['swal_type'] = 'error';
             echo "<script>window.history.back();</script>";
  return;
         }
@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
         $dospem_id = (int)$_POST['dospem_id'];
         if ($dospem_id <= 0) {
             $_SESSION['swal_msg'] = 'Gagal: Anda harus memilih Dosen Pembimbing!';
-            $_SESSION['swal_type'] = 'success';
+            $_SESSION['swal_type'] = 'error';
             echo "<script>window.history.back();</script>";
  return;
         }
@@ -84,12 +84,12 @@ if ($bimbingan_id > 0) {
         }
     } else {
         $_SESSION['swal_msg'] = 'Data bimbingan tidak ditemukan!';
-            $_SESSION['swal_type'] = 'success';
+            $_SESSION['swal_type'] = 'error';
             return redirect()->to(base_url('koor_approval_bimbingan'));
     }
 } else {
     $_SESSION['swal_msg'] = 'ID tidak valid!';
-            $_SESSION['swal_type'] = 'success';
+            $_SESSION['swal_type'] = 'error';
             return redirect()->to(base_url('koor_approval_bimbingan'));
 }
 

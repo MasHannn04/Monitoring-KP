@@ -19,14 +19,14 @@ $db = \Config\Database::connect();
 
 
 $q_bim = $db->query("
-    SELECT b.id, b.tgl_mulai_kp, b.tgl_selesai_kp, k.id as kel_id, k.created_at, u.nama as ketua, 
+    SELECT b.id, b.tgl_mulai_kp, b.tgl_selesai_kp, b.status_bimbingan, k.id as kel_id, k.created_at, u.nama as ketua, 
            i.nama_instansi,
            (SELECT count(*) FROM anggota_kelompok WHERE kelompok_id = k.id AND status_anggota = 'menerima') as jumlah_anggota
     FROM bimbingan b 
     JOIN kelompok k ON b.kelompok_id = k.id 
     JOIN users u ON k.ketua_id = u.id 
     LEFT JOIN instansi i ON k.id = i.kelompok_id
-    WHERE b.status_bimbingan = 'menunggu'
+    WHERE b.status_bimbingan IN ('menunggu', 'disetujui') ORDER BY b.id DESC
 ");
 $bimbingan_list = [];
 if ($q_bim) {

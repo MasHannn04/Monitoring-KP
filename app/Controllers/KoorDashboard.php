@@ -41,10 +41,17 @@ $query_kelompok = "
            (SELECT COUNT(*) FROM anggota_kelompok WHERE kelompok_id = k.id AND status_anggota = 'menerima') as jml_anggota,
            i.nama_instansi,
            k.status_kelompok,
+           i.status_izin,
+           b.status_bimbingan,
+           s.status_koor as seminar_status,
+           l.status_koor as laporan_status,
            DATE_FORMAT(k.created_at, '%d-%b-%Y') as tgl_update
     FROM kelompok k
     JOIN users u ON k.ketua_id = u.id
     LEFT JOIN instansi i ON k.id = i.kelompok_id
+    LEFT JOIN bimbingan b ON k.id = b.kelompok_id
+    LEFT JOIN seminar s ON k.id = s.kelompok_id
+    LEFT JOIN laporan_akhir l ON k.id = l.kelompok_id
     WHERE k.status_kelompok NOT IN ('draft', 'ditolak')
     ORDER BY k.created_at DESC
 ";

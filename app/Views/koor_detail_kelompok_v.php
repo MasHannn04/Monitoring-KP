@@ -50,6 +50,7 @@
                         <h3 style="font-size: 15px; font-weight: 600; margin-bottom: 15px;">Validasi Pengajuan Kelompok</h3>
                         <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 20px;">Tolak kelompok jika ada anggota yang SKS-nya belum mencukupi standar Koordinator.</p>
                         
+                        <?php if($kelompok['status_kelompok'] != 'disetujui' && $kelompok['status_kelompok'] != 'ditolak'): ?>
                         <form method="POST" action="<?= base_url('koor_detail_kelompok') ?>?id=<?= $id ?>">
                             <input type="hidden" name="id" value="<?= $id ?>">
                             <div style="margin-bottom: 20px;">
@@ -59,9 +60,14 @@
 
                             <div style="display: flex; gap: 10px;">
                                 <button type="submit" name="approve" value="1" class="btn btn-success" style="flex: 1; font-size: 13px;"><i class="fa-solid fa-check"></i> Setujui Kelompok</button>
-                                <button type="submit" name="reject" value="1" class="btn btn-primary" style="flex: 1; font-size: 13px; background-color: #dc3545;"><i class="fa-solid fa-xmark"></i> Tolak</button>
+                                <button type="submit" formnovalidate name="reject" value="1" class="btn btn-primary" style="flex: 1; font-size: 13px; background-color: #dc3545;"><i class="fa-solid fa-xmark"></i> Tolak</button>
                             </div>
                         </form>
+                        <?php else: ?>
+                            <div style="padding: 15px; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 4px; text-align: center; margin-top: 10px;">
+                                <i class="fa-solid fa-circle-check"></i> Pengajuan kelompok ini telah <strong style="text-transform:uppercase;"><?= $kelompok['status_kelompok'] ?></strong>.
+                            </div>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>

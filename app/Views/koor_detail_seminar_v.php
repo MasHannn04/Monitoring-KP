@@ -58,6 +58,7 @@
                 </div>
 
                 <div>
+                    <?php if($seminar_data['status_koor'] != 'dijadwalkan' && $seminar_data['status_koor'] != 'acc' && $seminar_data['status_koor'] != 'tolak'): ?>
                     <form method="POST" class="action-box">
                         <h3 style="font-size: 15px; font-weight: 600; margin-bottom: 15px;">Tentukan Jadwal & Penguji (Terima)</h3>
                         
@@ -106,6 +107,19 @@
                         </div>
                         <button type="submit" name="tolak" class="btn btn-primary" style="width: 100%; font-size: 13px; background-color: #dc3545;"><i class="fa-solid fa-xmark"></i> Tolak Pendaftaran</button>
                     </form>
+                    <?php else: ?>
+                        <div style="padding: 15px; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 4px; text-align: center; margin-top: 10px;">
+                            <i class="fa-solid fa-circle-check"></i> Pendaftaran seminar ini telah <strong style="text-transform:uppercase;"><?= $seminar_data['status_koor'] ?></strong>.
+                        </div>
+                        <?php if($seminar_data['status_koor'] == 'dijadwalkan' || $seminar_data['status_koor'] == 'acc'): ?>
+                            <div style="margin-top: 20px; font-size: 13px; line-height: 1.6; padding: 15px; border: 1px solid var(--border-color); border-radius: 4px; background: #fff;">
+                                <strong>Jadwal Seminar:</strong><br>
+                                Tanggal: <?= date('d F Y', strtotime($seminar_data['tgl_seminar'])) ?><br>
+                                Jam: <?= date('H:i', strtotime($seminar_data['jam_seminar'])) ?><br>
+                                Ruangan: <?= htmlspecialchars($seminar_data['ruangan']) ?>
+                            </div>
+                        <?php endif; ?>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>

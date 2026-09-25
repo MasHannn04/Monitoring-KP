@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
 
 
 
-$q_kel = $db->query("SELECT k.id, k.created_at FROM kelompok k WHERE k.status_kelompok = 'menunggu_validasi'");
+$q_kel = $db->query("SELECT k.id, k.created_at, k.status_kelompok FROM kelompok k WHERE k.status_kelompok IN ('menunggu_validasi', 'disetujui') ORDER BY k.id DESC");
 $kelompok_list = [];
 if($q_kel) {
     foreach ($q_kel->getResultArray() as $r){ 

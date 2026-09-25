@@ -21,7 +21,7 @@ $q = $db->query("
     JOIN users u ON k.ketua_id = u.id 
     LEFT JOIN instansi i ON k.id = i.kelompok_id 
     LEFT JOIN users ud ON k.dospem_id = ud.id 
-    WHERE s.status_koor = 'menunggu' AND s.status_dospem = 'acc'
+    WHERE s.status_koor IN ('menunggu', 'acc', 'dijadwalkan') AND s.status_dospem = 'acc' ORDER BY s.id DESC
 ");
 $seminar_list = [];
 if($q) {

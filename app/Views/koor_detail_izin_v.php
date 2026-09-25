@@ -63,12 +63,13 @@
                         <h3 style="font-size: 15px; font-weight: 600; margin-bottom: 15px;">Validasi Pengajuan</h3>
                         <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 20px;">Jika data sudah benar, silakan buat Surat Izin KP secara manual dan unggah versi digitalnya (PDF) ke sistem untuk diteruskan ke mahasiswa.</p>
                         
+                        <?php if($instansi_data['status_izin'] != 'disetujui' && $instansi_data['status_izin'] != 'ditolak'): ?>
                         <form method="POST" action="<?= base_url('koor_detail_izin') ?>?id=<?= $instansi_id ?>" enctype="multipart/form-data">
                             <input type="hidden" name="instansi_id" value="<?= $instansi_id ?>">
                             
                             <div style="margin-bottom: 15px;">
                                 <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 5px;">Upload Surat Izin Digital (PDF) (Jika Disetujui)</label>
-                                <input type="file" name="surat_izin" style="width: 100%; font-size: 12px; padding: 5px; border: 1px solid var(--border-color); border-radius: 4px;" accept="application/pdf">
+                                <input type="file" required name="surat_izin" style="width: 100%; font-size: 12px; padding: 5px; border: 1px solid var(--border-color); border-radius: 4px;" accept="application/pdf">
                             </div>
 
                             <div style="margin-bottom: 20px;">
@@ -78,9 +79,19 @@
 
                             <div style="display: flex; gap: 10px;">
                                 <button type="submit" name="action" value="approve" class="btn btn-success" style="flex: 1; font-size: 13px;"><i class="fa-solid fa-check"></i> Setujui</button>
-                                <button type="submit" name="action" value="reject" class="btn btn-primary" style="flex: 1; font-size: 13px; background-color: #dc3545;"><i class="fa-solid fa-xmark"></i> Tolak</button>
+                                <button type="submit" formnovalidate name="action" value="reject" class="btn btn-primary" style="flex: 1; font-size: 13px; background-color: #dc3545;"><i class="fa-solid fa-xmark"></i> Tolak</button>
                             </div>
                         </form>
+                        <?php else: ?>
+                            <div style="padding: 15px; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 4px; text-align: center; margin-top: 10px;">
+                                <i class="fa-solid fa-circle-check"></i> Pengajuan izin ini telah <strong style="text-transform:uppercase;"><?= $instansi_data['status_izin'] ?></strong>.
+                            </div>
+                            <?php if(!empty($instansi_data['file_surat_izin'])): ?>
+                                <div style="margin-top: 15px; text-align: center;">
+                                    <a href="<?= base_url('view_pdf') ?>?file=<?= urlencode($instansi_data['file_surat_izin']) ?>" target="_blank" class="btn btn-primary" style="font-size: 12px; padding: 5px 10px; text-decoration: none;"><i class="fa-solid fa-file-pdf"></i> Lihat Surat Izin Diterbitkan</a>
+                                </div>
+                            <?php endif; ?>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>

@@ -29,7 +29,7 @@ $q = $db->query("
     FROM laporan_akhir l
     JOIN kelompok k ON l.kelompok_id = k.id
     JOIN users u ON k.ketua_id = u.id
-    WHERE l.status_koor = 'menunggu' AND l.status_dospem = 'acc'
+    WHERE l.status_koor IN ('menunggu', 'acc') AND l.status_dospem = 'acc' ORDER BY l.id DESC
 ");
 $laporan_list = [];
 if($q) {

@@ -75,13 +75,40 @@
                     $no = 1;
                     if($list_kelompok && $list_kelompok->getNumRows() > 0) {
                         foreach($list_kelompok->getResultArray() as $row) {
-                            // Determine status badge
-                            $status_badge = '<span class="badge" style="background-color: var(--text-muted);">Menunggu</span>';
-                            if ($row['status_kelompok'] == 'menunggu_validasi') {
-                                $status_badge = '<span class="badge" style="background-color: #FFA94D;">Pengajuan Kelompok</span>';
-                            } elseif ($row['status_kelompok'] == 'disetujui') {
-                                $status_badge = '<span class="badge badge-success">Disetujui/Aktif</span>';
+                            // Determine status badge (6 Langkah Alur KP)
+                            $tahap_text = "1. Pembentukan Kelompok";
+                            $badge_color = "#FFA94D";
+
+                            if ($row['status_kelompok'] == 'disetujui') {
+                                $tahap_text = "2. Pengajuan Izin KP";
+                                $badge_color = "#FFA94D";
+                                
+                                if (!empty($row['status_izin']) && $row['status_izin'] == 'disetujui') {
+                                    $tahap_text = "3. Pengajuan Bimbingan";
+                                    $badge_color = "#FFA94D";
+                                    
+                                    if (!empty($row['status_bimbingan']) && $row['status_bimbingan'] == 'disetujui') {
+                                        $tahap_text = "4. Pelaksanaan dan Laporan";
+                                        $badge_color = "#FFA94D";
+                                        
+                                        if (!empty($row['seminar_status'])) {
+                                            $tahap_text = "5. Pendaftaran Seminar";
+                                            $badge_color = "#FFA94D";
+                                            
+                                            if (!empty($row['laporan_status'])) {
+                                                $tahap_text = "6. Pengumpulan Laporan";
+                                                $badge_color = "#FFA94D";
+                                                
+                                                if ($row['laporan_status'] == 'acc') {
+                                                    $tahap_text = "Lulus KP / Selesai";
+                                                    $badge_color = "#28a745";
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
                             }
+                            $status_badge = '<span class="badge" style="background-color: '.$badge_color.';">'.$tahap_text.'</span>';
                     ?>
                     <tr>
                         <td><?= $no++ ?></td>
