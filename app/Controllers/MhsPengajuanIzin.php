@@ -26,11 +26,20 @@ $q = $db->query("SELECT a.kelompok_id, a.is_ketua, k.status_kelompok FROM anggot
 $kel_id = 0;
 $is_user_ketua = false;
 $status_kelompok = 'belum_punya';
+$status_reset = null;
+$alasan_reset = null;
 if($q->getNumRows() > 0) {
     $row_user = $q->getRowArray();
     $kel_id = $row_user['kelompok_id'];
     $is_user_ketua = $row_user['is_ketua'];
     $status_kelompok = $row_user['status_kelompok'];
+    
+    $q_kel = $db->query("SELECT status_reset, alasan_reset FROM kelompok WHERE id = $kel_id");
+    if ($q_kel->getNumRows() > 0) {
+        $kel_data = $q_kel->getRowArray();
+        $status_reset = $kel_data['status_reset'];
+        $alasan_reset = $kel_data['alasan_reset'];
+    }
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && $kel_id > 0) {
@@ -107,10 +116,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $kel_id > 0) {
             return redirect()->to(base_url('mhs_pengajuan_izin'));
         } return;
     }
+    
+    if ($action == 'req_reset' && $is_user_ketua) {
+        $alasan = $db->escapeString($_POST['alasan_reset'] ?? '');
+        $db->query("UPDATE kelompok SET status_reset = 'menunggu', alasan_reset = '$alasan' WHERE id = $kel_id");
+        $_SESSION['swal_msg'] = 'Permohonan ganti perusahaan berhasil diajukan! Silakan tunggu konfirmasi Koordinator.';
+        $_SESSION['swal_type'] = 'success';
+        return redirect()->to(base_url('mhs_pengajuan_izin'));
+    }
 
-    $_SESSION['swal_msg'] = 'Data berhasil disimpan sebagai draft!';
-            $_SESSION['swal_type'] = 'success';
-            return redirect()->to(base_url('mhs_pengajuan_izin'));
+    if ($action == 'simpan_draft') {
+        $_SESSION['swal_msg'] = 'Data berhasil disimpan sebagai draft!';
+        $_SESSION['swal_type'] = 'success';
+        return redirect()->to(base_url('mhs_pengajuan_izin'));
+    }
 }
 
 $anggota_list = [];

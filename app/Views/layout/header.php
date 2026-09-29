@@ -33,6 +33,16 @@
         .member-card { background-color: white; border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; margin-bottom: 15px; }
         .member-header { display: flex; align-items: center; gap: 15px; border-bottom: 1px dashed var(--border-color); padding-bottom: 15px; margin-bottom: 15px; }
         .doc-box { display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; background-color: #f8f9fa; border-radius: 6px; border: 1px solid #e9ecef; margin-bottom: 10px; }
+        
+        /* Fix Table Horizontal Scroll */
+        .table td, .table th {
+            white-space: normal !important;
+            word-wrap: break-word;
+            vertical-align: middle;
+        }
+        .table th {
+            min-width: 80px;
+        }
     </style>
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

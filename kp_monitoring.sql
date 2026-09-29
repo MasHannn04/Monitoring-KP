@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Sep 29, 2026 at 07:24 AM
+-- Generation Time: Sep 29, 2026 at 12:22 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.33
 
@@ -32,13 +32,13 @@ CREATE TABLE `anggota_kelompok` (
   `kelompok_id` int NOT NULL,
   `mahasiswa_id` int NOT NULL,
   `is_ketua` tinyint(1) DEFAULT '0',
-  `status_anggota` enum('menunggu','menerima','menolak','dikeluarkan') COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `no_wa` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `file_riwayat_studi` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `status_anggota` enum('menunggu','menerima','menolak','dikeluarkan') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `no_wa` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `file_riwayat_studi` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `nilai_penguji1` float DEFAULT NULL,
   `nilai_penguji2` float DEFAULT NULL,
-  `revisi_penguji1` text COLLATE utf8mb4_general_ci,
-  `revisi_penguji2` text COLLATE utf8mb4_general_ci
+  `revisi_penguji1` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  `revisi_penguji2` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -368,18 +368,18 @@ INSERT INTO `anggota_kelompok` (`id`, `kelompok_id`, `mahasiswa_id`, `is_ketua`,
 CREATE TABLE `bimbingan` (
   `id` int NOT NULL,
   `kelompok_id` int NOT NULL,
-  `no_surat_balasan` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `no_surat_balasan` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `tgl_surat_balasan` date DEFAULT NULL,
   `tgl_mulai_kp` date DEFAULT NULL,
   `tgl_selesai_kp` date DEFAULT NULL,
-  `file_surat_balasan` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `file_slip_bimbingan` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `file_surat_tugas` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `file_berkas_pendukung` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `status_bimbingan` enum('menunggu','disetujui','ditolak') COLLATE utf8mb4_general_ci DEFAULT 'menunggu',
-  `bimbingan_note` text COLLATE utf8mb4_general_ci,
-  `judul_laporan` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `status_dospem` enum('menunggu','disetujui') COLLATE utf8mb4_general_ci DEFAULT 'menunggu'
+  `file_surat_balasan` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `file_slip_bimbingan` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `file_surat_tugas` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `file_berkas_pendukung` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `status_bimbingan` enum('menunggu','disetujui','ditolak') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'menunggu',
+  `bimbingan_note` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  `judul_laporan` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `status_dospem` enum('menunggu','disetujui') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'menunggu'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -499,38 +499,38 @@ INSERT INTO `bimbingan` (`id`, `kelompok_id`, `no_surat_balasan`, `tgl_surat_bal
 (110, 110, '001/SPK-HRD/VII/2024', '2019-07-19', '2024-07-23', '2024-10-22', NULL, NULL, NULL, NULL, 'disetujui', NULL, 'ANALISA SISTEM DAN BASIS DATA PADA PT. AMN (ADHITAMA MITRA NUSANTARA)', 'disetujui'),
 (111, 111, '-', '2023-02-05', '2023-02-06', '2023-03-06', NULL, NULL, NULL, NULL, 'disetujui', NULL, 'EVALUASI DAN PERANCANGAN USER INTERFACE DAN USER EXPERIENCE WEBSITE NIAGAHOSTER MENGGUNAKAN METODE DESIGN THINKING', 'disetujui'),
 (112, 112, '022/PSM/Eksternal/IX/2022', '2022-09-26', '2022-10-17', '2022-11-17', NULL, NULL, NULL, NULL, 'disetujui', NULL, 'Rancang Bangun Company Profile CV. Putra Sakti Mandiri Berbasis Web', 'disetujui'),
-(113, 113, '001/X/RAI/2022', '2022-10-27', '2022-10-31', '2022-11-30', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'disetujui'),
-(114, 114, '0102/B/V/2023', '2023-05-15', '2023-05-15', '2023-07-15', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'disetujui'),
-(115, 115, '011/BMI/SBY-MSY/VII/2023', '2023-07-10', '2023-07-17', '2023-08-17', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'disetujui'),
-(116, 116, 'AP.I.4924/DL.13/2023/SUB.AD-B', '2023-10-18', '2023-10-23', '2023-11-30', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'disetujui'),
+(113, 113, '001/X/RAI/2022', '2022-10-27', '2022-10-31', '2022-11-30', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'menunggu'),
+(114, 114, '0102/B/V/2023', '2023-05-15', '2023-05-15', '2023-07-15', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'menunggu'),
+(115, 115, '011/BMI/SBY-MSY/VII/2023', '2023-07-10', '2023-07-17', '2023-08-17', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'menunggu'),
+(116, 116, 'AP.I.4924/DL.13/2023/SUB.AD-B', '2023-10-18', '2023-10-23', '2023-11-30', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'menunggu'),
 (117, 117, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(118, 118, '003/LLCJ/KerjaPraktek/X/2023', '2023-10-11', '2023-10-16', '2023-11-16', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'disetujui'),
-(119, 119, '030/SP-TL-EXT/X/2023', '2023-10-21', '2023-11-01', '2024-01-31', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'disetujui'),
+(118, 118, '003/LLCJ/KerjaPraktek/X/2023', '2023-10-11', '2023-10-16', '2023-11-16', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'menunggu'),
+(119, 119, '030/SP-TL-EXT/X/2023', '2023-10-21', '2023-11-01', '2024-01-31', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'menunggu'),
 (120, 120, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(121, 121, '01/APM/IV/2024', '2024-04-02', '2024-05-01', '2024-06-30', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'disetujui'),
+(121, 121, '01/APM/IV/2024', '2024-04-02', '2024-05-01', '2024-06-30', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'menunggu'),
 (122, 122, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(123, 123, '0007/SKT/SBY/E/VIII/2024', '2024-08-07', '2024-08-12', '2024-10-11', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'disetujui'),
-(124, 124, '-', '2024-08-01', '2024-08-01', '2024-08-31', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'disetujui'),
-(125, 125, 'SK0111032025', '2025-03-11', '2025-03-14', '2025-04-23', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'disetujui'),
+(123, 123, '0007/SKT/SBY/E/VIII/2024', '2024-08-07', '2024-08-12', '2024-10-11', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'menunggu'),
+(124, 124, '-', '2024-08-01', '2024-08-01', '2024-08-31', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'menunggu'),
+(125, 125, 'SK0111032025', '2025-03-11', '2025-03-14', '2025-04-23', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'menunggu'),
 (126, 126, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(127, 127, '00000', '2025-03-24', '2025-03-05', '2025-04-05', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'disetujui'),
-(128, 128, '200.1.3/1624/417.604.3/2025', '2025-08-14', '2025-08-18', '2025-09-19', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'disetujui'),
-(129, 129, '-', '2025-09-30', '2025-07-05', '2025-10-05', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'disetujui'),
-(130, 130, '267', '2025-10-06', '2025-10-06', '2026-01-01', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'disetujui'),
-(131, 131, '064/598/CSE/CKST/SRT', '2025-10-14', '2025-10-20', '2025-12-20', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'disetujui'),
+(127, 127, '00000', '2025-03-24', '2025-03-05', '2025-04-05', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'menunggu'),
+(128, 128, '200.1.3/1624/417.604.3/2025', '2025-08-14', '2025-08-18', '2025-09-19', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'menunggu'),
+(129, 129, '-', '2025-09-30', '2025-07-05', '2025-10-05', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'menunggu'),
+(130, 130, '267', '2025-10-06', '2025-10-06', '2026-01-01', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'menunggu'),
+(131, 131, '064/598/CSE/CKST/SRT', '2025-10-14', '2025-10-20', '2025-12-20', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'menunggu'),
 (132, 132, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(133, 133, '400.14.5.4/1362/436.5/2026', '2026-02-27', '2026-03-09', '2026-05-17', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'disetujui'),
-(134, 134, '09', '2026-03-31', '2026-03-31', '2026-06-04', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'disetujui'),
-(135, 135, 'KP/IV/2026.02/015', '2026-04-02', '2026-04-01', '2026-04-30', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'disetujui'),
+(133, 133, '400.14.5.4/1362/436.5/2026', '2026-02-27', '2026-03-09', '2026-05-17', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'menunggu'),
+(134, 134, '09', '2026-03-31', '2026-03-31', '2026-06-04', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'menunggu'),
+(135, 135, 'KP/IV/2026.02/015', '2026-04-02', '2026-04-01', '2026-04-30', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'menunggu'),
 (136, 136, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(137, 137, '26/B/RED-SK/II/2026', '2026-06-26', '2026-05-17', '2026-08-17', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'disetujui'),
-(138, 138, '25/B/RED-SK/II/2026', '2026-06-26', '2026-05-17', '2026-08-17', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'disetujui'),
-(139, 139, 'A.014/DSI/ITATS12026', '2026-05-19', '2026-05-20', '2026-06-20', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'disetujui'),
+(137, 137, '26/B/RED-SK/II/2026', '2026-06-26', '2026-05-17', '2026-08-17', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'menunggu'),
+(138, 138, '25/B/RED-SK/II/2026', '2026-06-26', '2026-05-17', '2026-08-17', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'menunggu'),
+(139, 139, 'A.014/DSI/ITATS12026', '2026-05-19', '2026-05-20', '2026-06-20', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'menunggu'),
 (140, 140, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(141, 141, '165 / PPMB / ITATS / VI / 2026', '2026-06-17', '2026-07-01', '2026-08-01', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'disetujui'),
-(142, 142, ' 400.14.5.4/5782/436.7.14/2026', '2026-07-21', '2026-08-03', '2026-12-03', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'disetujui'),
+(141, 141, '165 / PPMB / ITATS / VI / 2026', '2026-06-17', '2026-07-01', '2026-08-01', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'menunggu'),
+(142, 142, ' 400.14.5.4/5782/436.7.14/2026', '2026-07-21', '2026-08-03', '2026-12-03', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'menunggu'),
 (143, 143, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(144, 144, '001/SK-KP/BMV/VIII/2026', '2026-08-16', '2026-08-13', '2026-10-13', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'disetujui'),
+(144, 144, '001/SK-KP/BMV/VIII/2026', '2026-08-16', '2026-08-13', '2026-10-13', NULL, NULL, NULL, NULL, 'disetujui', NULL, NULL, 'menunggu'),
 (145, 145, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (146, 146, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
@@ -549,9 +549,9 @@ CREATE TABLE `instansi` (
   `ditujukan_kepada` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `bidang_kp` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `lama_kp` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `file_surat_izin` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `status_izin` enum('draft','menunggu','disetujui','ditolak') COLLATE utf8mb4_general_ci DEFAULT 'draft',
-  `izin_note` text COLLATE utf8mb4_general_ci,
+  `file_surat_izin` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `status_izin` enum('draft','menunggu','disetujui','ditolak') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'draft',
+  `izin_note` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
   `tanggal_pengajuan` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -717,8 +717,8 @@ CREATE TABLE `kelompok` (
   `id` int NOT NULL,
   `ketua_id` int NOT NULL,
   `dospem_id` int DEFAULT NULL,
-  `status_kelompok` enum('draft','menunggu_validasi','disetujui','ditolak') COLLATE utf8mb4_general_ci DEFAULT 'draft',
-  `koor_note` text COLLATE utf8mb4_general_ci,
+  `status_kelompok` enum('draft','menunggu_validasi','disetujui','ditolak') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'draft',
+  `koor_note` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -887,9 +887,9 @@ CREATE TABLE `laporan_akhir` (
   `file_surat_tugas` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `file_nilai_perusahaan` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `tgl_pengumpulan` datetime DEFAULT CURRENT_TIMESTAMP,
-  `status_dospem` enum('menunggu','acc','tolak') COLLATE utf8mb4_general_ci DEFAULT 'menunggu',
-  `status_koor` enum('menunggu','acc','tolak') COLLATE utf8mb4_general_ci DEFAULT 'menunggu',
-  `catatan` text COLLATE utf8mb4_general_ci,
+  `status_dospem` enum('menunggu','acc','tolak') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'menunggu',
+  `status_koor` enum('menunggu','acc','tolak') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'menunggu',
+  `catatan` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
   `nilai_perusahaan` float DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -1009,9 +1009,9 @@ CREATE TABLE `log_bimbingan` (
   `id` int NOT NULL,
   `kelompok_id` int NOT NULL,
   `tgl_bimbingan` date DEFAULT NULL,
-  `catatan` text COLLATE utf8mb4_general_ci NOT NULL,
-  `status_log` enum('menunggu','revisi','acc') COLLATE utf8mb4_general_ci DEFAULT 'menunggu',
-  `catatan_dosen` text COLLATE utf8mb4_general_ci
+  `catatan` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `status_log` enum('menunggu','revisi','acc') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'menunggu',
+  `catatan_dosen` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -1733,14 +1733,14 @@ CREATE TABLE `seminar` (
   `kelompok_id` int NOT NULL,
   `file_draft_laporan` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `file_slip_seminar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `status_dospem` enum('menunggu','acc','tolak') COLLATE utf8mb4_general_ci DEFAULT 'menunggu',
-  `status_koor` enum('menunggu','dijadwalkan','tolak') COLLATE utf8mb4_general_ci DEFAULT 'menunggu',
+  `status_dospem` enum('menunggu','acc','tolak') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'menunggu',
+  `status_koor` enum('menunggu','dijadwalkan','tolak') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'menunggu',
   `tgl_seminar` date DEFAULT NULL,
   `jam_seminar` time DEFAULT NULL,
-  `ruangan` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `ruangan` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `penguji1_id` int DEFAULT NULL,
   `penguji2_id` int DEFAULT NULL,
-  `catatan_tolak` text COLLATE utf8mb4_general_ci
+  `catatan_tolak` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -1869,13 +1869,13 @@ INSERT INTO `seminar` (`id`, `kelompok_id`, `file_draft_laporan`, `file_slip_sem
 
 CREATE TABLE `users` (
   `id` int NOT NULL,
-  `npm_nip` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
-  `nama` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `password` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `role` enum('mahasiswa','dosen','koordinator') COLLATE utf8mb4_general_ci NOT NULL,
-  `email` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `remember_token` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `prodi` varchar(50) COLLATE utf8mb4_general_ci DEFAULT 'Sistem Informasi'
+  `npm_nip` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `nama` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `role` enum('mahasiswa','dosen','koordinator') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `remember_token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `prodi` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'Sistem Informasi'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --

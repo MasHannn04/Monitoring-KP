@@ -60,6 +60,21 @@
         border-color: var(--primary-blue);
         box-shadow: 0 0 0 3px rgba(10, 88, 202, 0.1);
     }
+    .password-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+    .toggle-password {
+        position: absolute;
+        right: 15px;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: color 0.3s;
+    }
+    .toggle-password:hover {
+        color: var(--primary-blue);
+    }
     .btn-login {
         background-color: var(--primary-blue);
         color: white;
@@ -120,7 +135,10 @@
         </div>
         <div class="form-group">
             <label class="form-label">Password</label>
-            <input type="password" name="password" class="form-control" placeholder="Masukkan Password" required>
+            <div class="password-wrapper">
+                <input type="password" id="loginPassword" name="password" class="form-control" placeholder="Masukkan Password" required style="padding-right: 40px;">
+                <i class="fa-regular fa-eye toggle-password" id="togglePasswordIcon" onclick="togglePasswordVisibility()"></i>
+            </div>
         </div>
         <div class="form-group" style="display: flex; align-items: center; gap: 8px;">
             <input type="checkbox" name="remember" id="remember" style="width: 16px; height: 16px; cursor: pointer;">
@@ -138,3 +156,20 @@
         &copy; <?= date('Y') ?> Program Studi Sistem Informasi - Institut Teknologi Adhi Tama Surabaya
     </div>
 </div>
+
+<script>
+function togglePasswordVisibility() {
+    const passwordInput = document.getElementById('loginPassword');
+    const icon = document.getElementById('togglePasswordIcon');
+    
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+    } else {
+        passwordInput.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+    }
+}
+</script>

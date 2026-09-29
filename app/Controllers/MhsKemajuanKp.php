@@ -57,9 +57,22 @@ if ($kel_id > 0) {
 // Log cannot be readonly really, because they might add multiple logs.
 // We just need the workflow guard to prevent access if not allowed.
 
+$q_max_date = $db->query("SELECT MAX(tgl_bimbingan) as last_date FROM log_bimbingan WHERE kelompok_id = $kel_id");
+$last_date = '';
+if ($q_max_date && $q_max_date->getNumRows() > 0) {
+    $last_date = $q_max_date->getRowArray()['last_date'];
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && $kel_id > 0 && $workflow['allowed']) {
     $catatan = $db->escapeString($_POST['catatan'] ?? '');
-    $tgl = date('Y-m-d');
+    $tgl = $_POST['tgl_bimbingan'] ?? date('Y-m-d');
+    
+    // Validasi agar tanggal tidak mundur
+    if (!empty($last_date) && $tgl < $last_date) {
+        $_SESSION['swal_msg'] = 'Tanggal bimbingan tidak boleh kurang dari bimbingan sebelumnya (' . date('d-M-Y', strtotime($last_date)) . ')!';
+        $_SESSION['swal_type'] = 'error';
+        return redirect()->to(base_url('mhs_kemajuan_kp'));
+    }
     
     $db->query("INSERT INTO log_bimbingan (kelompok_id, tgl_bimbingan, catatan, status_log) VALUES ($kel_id, '$tgl', '$catatan', 'menunggu')");
     

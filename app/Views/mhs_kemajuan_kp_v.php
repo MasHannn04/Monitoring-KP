@@ -60,6 +60,13 @@
                 <div class="no-print" style="margin-bottom: 20px; padding: 15px; border: 1px solid var(--border-color); border-radius: 6px; background-color: #f9f9f9;">
                     <h3 style="font-size: 14px; font-weight: 600; margin-bottom: 10px;">Tambah Log Baru</h3>
                     <form method="POST">
+                        <div style="margin-bottom: 10px;">
+                            <label style="font-size: 13px; font-weight: 600; display: block; margin-bottom: 5px;">Tanggal Bimbingan</label>
+                            <input type="date" name="tgl_bimbingan" class="form-control" style="width: 200px;" value="<?= date('Y-m-d') ?>" <?= !empty($last_date) ? 'min="'.$last_date.'"' : '' ?> required>
+                            <?php if(!empty($last_date)): ?>
+                                <small style="color: var(--text-muted); display: block; margin-top: 5px;">Tanggal tidak boleh kurang dari bimbingan sebelumnya (<?= date('d-M-Y', strtotime($last_date)) ?>).</small>
+                            <?php endif; ?>
+                        </div>
                         <textarea name="catatan" class="form-control" style="width: 100%; height: 80px; margin-bottom: 10px;" placeholder="Tuliskan progres / catatan bimbingan hari ini..." required></textarea>
                         <button type="submit" class="btn btn-primary" style="font-size: 13px;"><i class="fa-solid fa-paper-plane"></i> Kirim Log Bimbingan</button>
                     </form>

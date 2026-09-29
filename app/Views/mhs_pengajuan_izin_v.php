@@ -189,7 +189,61 @@
                         </tbody>
                     </table>
                 </div>
+            </div>
+
+            <?php if ($is_user_ketua && count($izin_history) > 0 && empty($status_reset)): ?>
+            <div class="card" style="margin-top: 20px; border: 1px solid #dc3545; background-color: #fffafb;">
+                <h2 style="font-size: 16px; font-weight: 600; margin-bottom: 10px; color: #dc3545;"><i class="fa-solid fa-triangle-exclamation"></i> Pengajuan Ganti Perusahaan</h2>
+                <p style="font-size: 13px; margin-bottom: 15px;">Jika Anda ingin mengganti tempat Kerja Praktek (misal karena ditolak oleh perusahaan atau alasan lain), Anda dapat mengajukan reset progres ke Koordinator KP. <br><strong>Perhatian:</strong> Jika disetujui, seluruh data Instansi dan Bimbingan kelompok Anda saat ini akan dihapus dan Anda akan memulai kembali dari pengajuan izin!</p>
+                <form method="POST" id="formReset">
+                    <input type="hidden" name="action" value="req_reset">
+                    <div style="margin-bottom: 15px;">
+                        <label class="form-label" style="color: #dc3545;">Alasan Mengganti Perusahaan</label>
+                        <textarea name="alasan_reset" class="form-control" rows="3" required placeholder="Tuliskan secara jelas alasan mengapa Anda ingin mengganti instansi..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="background-color: #dc3545; border: none;"><i class="fa-solid fa-rotate-left"></i> Ajukan Permohonan Reset</button>
+                </form>
+            </div>
+            <?php elseif (!empty($status_reset)): ?>
+            <div class="card" style="margin-top: 20px; border: 1px solid #FFA94D; background-color: #fffaf0;">
+                <h2 style="font-size: 16px; font-weight: 600; margin-bottom: 10px; color: #d35400;">Status Pengajuan Ganti Perusahaan</h2>
+                <div style="font-size: 13px; margin-bottom: 15px;">
+                    <strong>Alasan Pengajuan:</strong> <?= htmlspecialchars($alasan_reset) ?>
+                </div>
+                <div style="padding: 10px; background-color: #ffe8cc; color: #d35400; font-weight: 600; border-radius: 4px;">
+                    <i class="fa-solid fa-info-circle"></i> Status Permohonan: <?= strtoupper($status_reset) ?>
+                    <?php if ($status_reset == 'menunggu'): ?>
+                        (Sedang menunggu konfirmasi dari Koordinator KP)
+                    <?php elseif ($status_reset == 'ditolak'): ?>
+                        (Permohonan Anda ditolak oleh Koordinator)
+                    <?php endif; ?>
+                </div>
+            </div>
+            <?php endif; ?>
+
         </div>
     </div>
 </div>
 <?php endif; ?>
+
+<script>
+if (document.getElementById('formReset')) {
+    document.getElementById('formReset').addEventListener('submit', function(e) {
+        e.preventDefault();
+        Swal.fire({
+            title: 'Ajukan Reset Perusahaan?',
+            text: 'Apakah Anda yakin ingin mengajukan permohonan reset perusahaan? Seluruh progres saat ini akan dihapus jika disetujui.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#dc3545',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Ya, Ajukan Reset',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                this.submit();
+            }
+        });
+    });
+}
+</script>

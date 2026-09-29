@@ -20,10 +20,27 @@
                         <div class="member-header" style="justify-content: space-between; align-items: flex-start;">
                             <div>
                                 <div style="font-weight: 600; font-size: 14px; margin-bottom: 6px;"><?= $i++ ?>. <?= htmlspecialchars($m['nama']) ?> (<?= htmlspecialchars($m['npm_nip']) ?>)</div>
-                                <div style="font-size: 12px; color: var(--text-muted);">Status: <span style="color: var(--success-green);"><i class="fa-solid fa-check"></i> Mengajukan Validasi</span></div>
+                                <div style="font-size: 12px; color: var(--text-muted);">
+                                    Status: 
+                                    <?php if ($m['status_anggota'] == 'menerima'): ?>
+                                        <span style="color: var(--success-green);"><i class="fa-solid fa-check"></i> Aktif</span>
+                                    <?php elseif ($m['status_anggota'] == 'dikeluarkan'): ?>
+                                        <span style="color: #dc3545;"><i class="fa-solid fa-user-xmark"></i> Dikeluarkan</span>
+                                    <?php else: ?>
+                                        <span style="color: #FFA94D;"><?= ucfirst($m['status_anggota']) ?></span>
+                                    <?php endif; ?>
+                                </div>
                             </div>
-                            <div>
+                            <div style="display: flex; gap: 10px; align-items: center;">
                                 <?= $m['is_ketua'] ? '<span class="badge badge-primary">Ketua</span>' : '<span class="badge" style="background-color: #6c757d;">Anggota</span>' ?>
+                                
+                                <?php if ($m['status_anggota'] == 'menerima' && $active_members_count > 1): ?>
+                                <form method="POST" action="<?= base_url('koor_detail_kelompok') ?>?id=<?= $id ?>" onsubmit="return confirm('Yakin ingin mengeluarkan mahasiswa ini? Ia harus mendaftar kelompok baru dari awal jika dikeluarkan.');" style="margin:0;">
+                                    <input type="hidden" name="id" value="<?= $id ?>">
+                                    <input type="hidden" name="mhs_id" value="<?= $m['mhs_id'] ?>">
+                                    <button type="submit" name="kick_member" value="1" class="btn btn-primary" style="font-size: 11px; padding: 4px 8px; background-color: #dc3545; border: none; border-radius: 4px;" title="Keluarkan dari kelompok"><i class="fa-solid fa-user-minus"></i> Kick</button>
+                                </form>
+                                <?php endif; ?>
                             </div>
                         </div>
                         <div class="doc-box">

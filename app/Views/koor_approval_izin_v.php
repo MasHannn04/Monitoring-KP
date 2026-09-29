@@ -6,6 +6,41 @@
                 </div>
             </div>
 
+            <?php if(count($reset_requests) > 0): ?>
+            <div class="card" style="margin-bottom: 30px; border: 1px solid #dc3545; background-color: #fffafb;">
+                <h2 style="font-size: 16px; font-weight: 600; margin-bottom: 20px; color: #dc3545;"><i class="fa-solid fa-triangle-exclamation"></i> Menunggu Konfirmasi Ganti Perusahaan</h2>
+                <div class="table-responsive">
+                    <table class="table" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>Ketua Kelompok</th>
+                                <th>Instansi Lama</th>
+                                <th>Alasan Ganti Perusahaan</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($reset_requests as $req): ?>
+                                <tr>
+                                    <td><div style="font-weight: 600;"><?= htmlspecialchars($req['ketua_nama']) ?></div></td>
+                                    <td><?= htmlspecialchars($req['instansi_lama']) ?></td>
+                                    <td style="max-width: 300px;"><?= htmlspecialchars($req['alasan_reset']) ?></td>
+                                    <td>
+                                        <form method="POST" style="display:flex; gap:5px;" id="formReset_<?= $req['kelompok_id'] ?>">
+                                            <input type="hidden" name="kelompok_id" value="<?= $req['kelompok_id'] ?>">
+                                            <input type="hidden" name="action" id="action_<?= $req['kelompok_id'] ?>" value="">
+                                            <button type="button" class="btn btn-success" style="font-size: 12px; padding: 6px 10px;" title="Setujui Reset" onclick="confirmResetKoor(<?= $req['kelompok_id'] ?>, 'approve_reset')"><i class="fa-solid fa-check"></i> Setujui</button>
+                                            <button type="button" class="btn btn-danger" style="font-size: 12px; padding: 6px 10px; background-color: #dc3545;" title="Tolak Reset" onclick="confirmResetKoor(<?= $req['kelompok_id'] ?>, 'reject_reset')"><i class="fa-solid fa-xmark"></i> Tolak</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <?php endif; ?>
+
             <div class="card">
                 <h2 style="font-size: 16px; font-weight: 600; margin-bottom: 20px;">Daftar Pengajuan Izin</h2>
                 <div class="table-responsive">
@@ -103,4 +138,28 @@
             "order": []
         });
     });
+
+    function confirmResetKoor(id, actionType) {
+        let title = actionType === 'approve_reset' ? 'Setujui Reset Perusahaan?' : 'Tolak Reset Perusahaan?';
+        let text = actionType === 'approve_reset' ? 'Jika disetujui, seluruh progres kelompok ini akan dihapus dan mereka akan mengulang dari tahap pengajuan izin.' : 'Jika ditolak, kelompok ini harus melanjutkan KP di perusahaan yang lama.';
+        let icon = actionType === 'approve_reset' ? 'warning' : 'info';
+        let confirmColor = actionType === 'approve_reset' ? 'var(--success-green)' : '#dc3545';
+        let btnText = actionType === 'approve_reset' ? 'Ya, Setujui' : 'Ya, Tolak';
+
+        Swal.fire({
+            title: title,
+            text: text,
+            icon: icon,
+            showCancelButton: true,
+            confirmButtonColor: confirmColor,
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: btnText,
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('action_' + id).value = actionType;
+                document.getElementById('formReset_' + id).submit();
+            }
+        });
+    }
 </script>
