@@ -6,6 +6,8 @@
         </div>
     </div>
 
+    <?php include __DIR__ . '/layout/default_password_warning.php'; ?>
+
     <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 30px;">
         <div>
             <?php if(isset($huruf_final) && $huruf_final !== '-'): ?>

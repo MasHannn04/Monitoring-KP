@@ -22,16 +22,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $npm_nip = $db->escapeString($_POST['npm_nip']);
     $password = $db->escapeString($_POST['password']);
     
-    $query = "SELECT * FROM users WHERE npm_nip = '$npm_nip' AND password = '$password'";
+    $query = "SELECT * FROM users WHERE npm_nip = '$npm_nip'";
     $result = $db->query($query);
     
     if ($result->getNumRows() > 0) {
         $user = $result->getRowArray();
+        if (password_verify($_POST['password'], $user['password'])) {
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['npm_nip'] = $user['npm_nip'];
         $_SESSION['nama'] = $user['nama'];
         $_SESSION['role'] = $user['role'];
         $_SESSION['prodi'] = $user['prodi']; // Tambahan prodi untuk Dosen
+        $_SESSION['is_default_password'] = password_verify($user['npm_nip'], $user['password']);
         $_SESSION['last_activity'] = time(); // For session timeout
         
         // Remember me
@@ -45,6 +47,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($user['role'] == 'mahasiswa') return redirect()->to(base_url('mhs_dashboard'));
         elseif ($user['role'] == 'koordinator') return redirect()->to(base_url('koor_dashboard'));
         elseif ($user['role'] == 'dosen') return redirect()->to(base_url('dosen_dashboard'));
+        } else {
+            $error = 'NPM/NIP atau Password salah!';
+        }
     } else {
         $error = 'NPM/NIP atau Password salah!';
     }

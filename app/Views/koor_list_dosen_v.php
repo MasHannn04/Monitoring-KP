@@ -19,7 +19,7 @@
         <?php endif; ?>
         
         <div class="table-responsive">
-            <table class="table" style="font-size: 12px; width: 100%; margin-bottom: 0;">
+            <table class="table datatable" style="font-size: 12px; width: 100%; margin-bottom: 0;">
                 <thead>
                     <tr>
                         <th style="white-space: nowrap;">NIP</th>
@@ -31,11 +31,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php if(empty($dosen_list)): ?>
-                    <tr>
-                        <td colspan="6" style="text-align: center; color: var(--text-muted); padding: 20px;">Belum ada dosen yang terdaftar.</td>
-                    </tr>
-                    <?php else: ?>
                     <?php foreach($dosen_list as $d): ?>
                     <tr>
                         <td style="white-space: nowrap;"><?= htmlspecialchars($d['npm_nip']) ?></td>
@@ -61,7 +56,7 @@
                         </td>
                     </tr>
                     <?php endforeach; ?>
-                    <?php endif; ?>
+
                 </tbody>
             </table>
         </div>
@@ -116,4 +111,24 @@ function openEditModal(id, nama, npm, prodi) {
 function closeEditModal() {
     document.getElementById('editModal').style.display = 'none';
 }
+</script>
+
+<!-- jQuery (Required by DataTables) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- DataTables CSS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<!-- DataTables JS -->
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('.datatable').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/id.json"
+            },
+            "lengthMenu": [[25, 50, 100, 200, 500, -1], [25, 50, 100, 200, 500, "Semua"]],
+            "pageLength": 25,
+            "order": []
+        });
+    });
 </script>

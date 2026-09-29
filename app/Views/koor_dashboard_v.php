@@ -8,6 +8,8 @@
         </div>
     </div>
 
+    <?php include __DIR__ . '/layout/default_password_warning.php'; ?>
+
     <?php if(!empty($success_msg)): ?>
         <div style="background-color: #d4edda; color: #155724; padding: 10px; border-radius: 4px; margin-bottom: 20px;">
             <i class="fa-solid fa-circle-check"></i> <?= $success_msg ?>

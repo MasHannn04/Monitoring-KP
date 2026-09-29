@@ -85,6 +85,7 @@
             "language": {
                 "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/id.json"
             },
+            "lengthMenu": [[25, 50, 100, 200, 500, -1], [25, 50, 100, 200, 500, "Semua"]],
             "pageLength": 25,
             "order": [[ 0, "asc" ]]
         });

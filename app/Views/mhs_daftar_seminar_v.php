@@ -1,5 +1,5 @@
 <?php if(isset($locked_message)): ?>
-    <?php include __FOLDER_VIEW__ . 'workflow_lock_v.php'; ?>
+    <?php include __DIR__ . '/workflow_lock_v.php'; ?>
 <?php else: ?>
 <div class="content-wrapper">
             <div class="page-header">

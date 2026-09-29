@@ -129,7 +129,12 @@
         <button type="submit" class="btn-login">Login Masuk <i class="fa-solid fa-arrow-right-to-bracket" style="margin-left: 5px;"></i></button>
     </form>
     
-    <div style="margin-top: 30px; font-size: 12px; color: var(--text-muted);">
+    <div style="margin-top: 20px; padding: 11px 14px; background-color: #F4F9FF; border: 1px solid #d0e2ff; border-radius: 8px; font-size: 12.5px; color: #334155; line-height: 1.4; text-align: center;">
+        <i class="fa-solid fa-circle-question" style="color: var(--primary-blue); margin-right: 4px;"></i> 
+        Lupa password? Silakan hubungi <strong>Koordinator KP</strong> untuk bantuan reset password.
+    </div>
+
+    <div style="margin-top: 25px; font-size: 12px; color: var(--text-muted);">
         &copy; <?= date('Y') ?> Program Studi Sistem Informasi - Institut Teknologi Adhi Tama Surabaya
     </div>
 </div>

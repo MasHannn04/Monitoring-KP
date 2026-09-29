@@ -36,8 +36,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $error = "Dosen dengan NIP tersebut sudah terdaftar!";
             } else {
                 if (!empty($password)) {
-                    $pass_esc = $db->escapeString($password);
-                    $db->query("UPDATE users SET nama = '$nama', npm_nip = '$npm_nip', password = '$pass_esc', prodi = '$prodi' WHERE id = $user_id AND role = 'dosen'");
+                    $hashed_password = password_hash($password, PASSWORD_BCRYPT);
+                    $db->query("UPDATE users SET nama = '$nama', npm_nip = '$npm_nip', password = '$hashed_password', prodi = '$prodi' WHERE id = $user_id AND role = 'dosen'");
                 } else {
                     $db->query("UPDATE users SET nama = '$nama', npm_nip = '$npm_nip', prodi = '$prodi' WHERE id = $user_id AND role = 'dosen'");
                 }

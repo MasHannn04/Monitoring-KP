@@ -6,6 +6,8 @@
         </div>
     </div>
 
+    <?php include __DIR__ . '/layout/default_password_warning.php'; ?>
+
     <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 30px;">
         <!-- Card 1 -->
         <div class="card" style="display: flex; align-items: center; padding: 25px;">

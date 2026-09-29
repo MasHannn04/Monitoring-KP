@@ -31,7 +31,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if($cek && $cek->getNumRows() > 0) {
             $error = "Dosen dengan NIP tersebut sudah terdaftar!";
         } else {
-            $insert = $db->query("INSERT INTO users (npm_nip, nama, password, role, prodi) VALUES ('$npm', '$nama', '$password', 'dosen', '$prodi')");
+            $hashed_password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+            $insert = $db->query("INSERT INTO users (npm_nip, nama, password, role, prodi) VALUES ('$npm', '$nama', '$hashed_password', 'dosen', '$prodi')");
             if($insert) {
                 $success = "Dosen berhasil didaftarkan!";
             } else {

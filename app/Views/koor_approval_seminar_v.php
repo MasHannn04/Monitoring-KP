@@ -9,7 +9,7 @@
             <div class="card">
                 <h2 style="font-size: 16px; font-weight: 600; margin-bottom: 20px;">Daftar Pendaftaran Seminar</h2>
                 <div class="table-responsive">
-                    <table class="table">
+                    <table class="table datatable" style="width: 100%;">
                         <thead>
                             <tr>
                                 <th>Ketua Kelompok</th>
@@ -20,20 +20,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php 
-                            $has_menunggu = false;
-                            foreach($seminar_list as $s) {
-                                if($s['status_koor'] != 'acc' && $s['status_koor'] != 'dijadwalkan' && $s['status_koor'] != 'tolak') {
-                                    $has_menunggu = true;
-                                    break;
-                                }
-                            }
-                            if(!$has_menunggu): 
-                            ?>
-                            <tr>
-                                <td colspan="5" style="text-align: center; color: var(--text-muted); padding: 20px;">Tidak ada pendaftaran seminar yang menunggu jadwal.</td>
-                            </tr>
-                            <?php else: ?>
                             <?php foreach($seminar_list as $s): if($s['status_koor'] != 'acc' && $s['status_koor'] != 'dijadwalkan' && $s['status_koor'] != 'tolak'): ?>
                             <tr>
                                 <td style="white-space: normal; word-wrap: break-word; max-width: 200px;">
@@ -54,7 +40,6 @@
                                 </td>
                             </tr>
                             <?php endif; endforeach; ?>
-                            <?php endif; ?>
                         </tbody>
                     </table>
                 </div>
@@ -63,7 +48,7 @@
             <div class="card" style="margin-top: 30px;">
                 <h2 style="font-size: 16px; font-weight: 600; margin-bottom: 20px;">Riwayat Seminar (Dijadwalkan)</h2>
                 <div class="table-responsive">
-                    <table class="table">
+                    <table class="table datatable" style="width: 100%;">
                         <thead>
                             <tr>
                                 <th>Ketua Kelompok</th>
@@ -74,20 +59,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php 
-                            $has_acc = false;
-                            foreach($seminar_list as $s) {
-                                if($s['status_koor'] == 'acc' || $s['status_koor'] == 'dijadwalkan') {
-                                    $has_acc = true;
-                                    break;
-                                }
-                            }
-                            if(!$has_acc): 
-                            ?>
-                            <tr>
-                                <td colspan="5" style="text-align: center; color: var(--text-muted); padding: 20px;">Belum ada jadwal seminar.</td>
-                            </tr>
-                            <?php else: ?>
                             <?php foreach($seminar_list as $s): if($s['status_koor'] == 'acc' || $s['status_koor'] == 'dijadwalkan'): ?>
                             <tr>
                                 <td style="white-space: normal; word-wrap: break-word; max-width: 200px;">
@@ -104,9 +75,28 @@
                                 </td>
                             </tr>
                             <?php endif; endforeach; ?>
-                            <?php endif; ?>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
+
+<!-- jQuery (Required by DataTables) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- DataTables CSS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<!-- DataTables JS -->
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('.datatable').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/id.json"
+            },
+            "lengthMenu": [[25, 50, 100, 200, 500, -1], [25, 50, 100, 200, 500, "Semua"]],
+            "pageLength": 25,
+            "order": []
+        });
+    });
+</script>

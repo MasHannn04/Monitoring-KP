@@ -9,7 +9,7 @@
             <div class="card">
                 <h2 style="font-size: 16px; font-weight: 600; margin-bottom: 20px;">Daftar Pengajuan Izin</h2>
                 <div class="table-responsive">
-                    <table class="table">
+                    <table class="table datatable" style="width: 100%;">
                         <thead>
                             <tr>
                                 <th>Tgl Pengajuan</th>
@@ -21,17 +21,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php 
-                            $has_menunggu = false;
-                            foreach($menunggu_izin as $izin) {
-                                if($izin['status_izin'] != 'disetujui' && $izin['status_izin'] != 'ditolak') {
-                                    $has_menunggu = true;
-                                    break;
-                                }
-                            }
-                            if ($has_menunggu): 
-                            ?>
-                                <?php foreach($menunggu_izin as $izin): if($izin['status_izin'] != 'disetujui' && $izin['status_izin'] != 'ditolak'): ?>
+                            <?php foreach($menunggu_izin as $izin): if($izin['status_izin'] != 'disetujui' && $izin['status_izin'] != 'ditolak'): ?>
                                 <tr>
                                     <td><?= date('d-M-Y', strtotime($izin['created_at'])) ?></td>
                                     <td style="white-space: normal; word-wrap: break-word; max-width: 200px;">
@@ -52,11 +42,6 @@
                                     </td>
                                 </tr>
                                 <?php endif; endforeach; ?>
-                            <?php else: ?>
-                                <tr>
-                                    <td colspan="6" style="text-align: center; color: var(--text-muted); padding: 20px;">Belum ada pengajuan izin KP yang menunggu validasi.</td>
-                                </tr>
-                            <?php endif; ?>
                         </tbody>
                     </table>
                 </div>
@@ -65,7 +50,7 @@
             <div class="card" style="margin-top: 30px;">
                 <h2 style="font-size: 16px; font-weight: 600; margin-bottom: 20px;">Riwayat Pengajuan Izin (Disetujui)</h2>
                 <div class="table-responsive">
-                    <table class="table">
+                    <table class="table datatable" style="width: 100%;">
                         <thead>
                             <tr>
                                 <th>Tgl Pengajuan</th>
@@ -77,17 +62,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php 
-                            $has_acc = false;
-                            foreach($menunggu_izin as $izin) {
-                                if($izin['status_izin'] == 'disetujui') {
-                                    $has_acc = true;
-                                    break;
-                                }
-                            }
-                            if ($has_acc): 
-                            ?>
-                                <?php foreach($menunggu_izin as $izin): if($izin['status_izin'] == 'disetujui'): ?>
+                            <?php foreach($menunggu_izin as $izin): if($izin['status_izin'] == 'disetujui'): ?>
                                 <tr>
                                     <td><?= date('d-M-Y', strtotime($izin['created_at'])) ?></td>
                                     <td style="white-space: normal; word-wrap: break-word; max-width: 200px;">
@@ -104,13 +79,28 @@
                                     </td>
                                 </tr>
                                 <?php endif; endforeach; ?>
-                            <?php else: ?>
-                                <tr>
-                                    <td colspan="6" style="text-align: center; color: var(--text-muted); padding: 20px;">Belum ada pengajuan izin yang disetujui.</td>
-                                </tr>
-                            <?php endif; ?>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
+
+<!-- jQuery (Required by DataTables) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- DataTables CSS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<!-- DataTables JS -->
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('.datatable').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/id.json"
+            },
+            "lengthMenu": [[25, 50, 100, 200, 500, -1], [25, 50, 100, 200, 500, "Semua"]],
+            "pageLength": 25,
+            "order": []
+        });
+    });
+</script>

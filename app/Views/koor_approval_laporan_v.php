@@ -9,7 +9,7 @@
             <div class="card">
                 <h2 style="font-size: 16px; font-weight: 600; margin-bottom: 20px;">Daftar Pengumpulan Laporan</h2>
                 <div class="table-responsive">
-                    <table class="table" style="font-size: 12px; width: 100%;">
+                    <table class="table datatable" style="font-size: 12px; width: 100%;">
                         <thead>
                             <tr>
                                 <th>Tanggal Kumpul</th>
@@ -21,20 +21,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php 
-                            $has_menunggu = false;
-                            foreach($laporan_list as $l) {
-                                if($l['status_koor'] != 'acc' && $l['status_koor'] != 'tolak') {
-                                    $has_menunggu = true;
-                                    break;
-                                }
-                            }
-                            if(!$has_menunggu): 
-                            ?>
-                            <tr>
-                                <td colspan="6" style="text-align: center; color: var(--text-muted); padding: 20px;">Tidak ada laporan yang menunggu validasi kelulusan.</td>
-                            </tr>
-                            <?php else: ?>
                             <?php foreach($laporan_list as $l): if($l['status_koor'] != 'acc' && $l['status_koor'] != 'tolak'): ?>
                             <tr>
                                 <td style="white-space: nowrap; vertical-align: middle;"><?= isset($l['tgl_pengumpulan']) && $l['tgl_pengumpulan'] ? date('d-M-Y', strtotime($l['tgl_pengumpulan'])) : '-' ?></td>
@@ -69,7 +55,6 @@
                                 </td>
                             </tr>
                             <?php endif; endforeach; ?>
-                            <?php endif; ?>
                         </tbody>
                     </table>
                 </div>
@@ -78,7 +63,7 @@
             <div class="card" style="margin-top: 30px;">
                 <h2 style="font-size: 16px; font-weight: 600; margin-bottom: 20px;">Riwayat Validasi Laporan (Lulus)</h2>
                 <div class="table-responsive">
-                    <table class="table" style="font-size: 12px; width: 100%;">
+                    <table class="table datatable" style="font-size: 12px; width: 100%;">
                         <thead>
                             <tr>
                                 <th>Tanggal Kumpul</th>
@@ -90,20 +75,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php 
-                            $has_acc = false;
-                            foreach($laporan_list as $l) {
-                                if($l['status_koor'] == 'acc') {
-                                    $has_acc = true;
-                                    break;
-                                }
-                            }
-                            if(!$has_acc): 
-                            ?>
-                            <tr>
-                                <td colspan="6" style="text-align: center; color: var(--text-muted); padding: 20px;">Belum ada kelompok yang divalidasi lulus.</td>
-                            </tr>
-                            <?php else: ?>
                             <?php foreach($laporan_list as $l): if($l['status_koor'] == 'acc'): ?>
                             <tr>
                                 <td style="white-space: nowrap; vertical-align: middle;"><?= isset($l['tgl_pengumpulan']) && $l['tgl_pengumpulan'] ? date('d-M-Y', strtotime($l['tgl_pengumpulan'])) : '-' ?></td>
@@ -127,9 +98,28 @@
                                 </td>
                             </tr>
                             <?php endif; endforeach; ?>
-                            <?php endif; ?>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
+
+<!-- jQuery (Required by DataTables) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- DataTables CSS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<!-- DataTables JS -->
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('.datatable').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/id.json"
+            },
+            "lengthMenu": [[25, 50, 100, 200, 500, -1], [25, 50, 100, 200, 500, "Semua"]],
+            "pageLength": 25,
+            "order": []
+        });
+    });
+</script>
