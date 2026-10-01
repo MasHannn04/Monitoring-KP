@@ -152,6 +152,14 @@ if (isset($instansi_data) && in_array($instansi_data['status_izin'], ['menunggu'
     $is_readonly = true;
 }
 
+$is_bimbingan_selesai = false;
+if ($kel_id > 0) {
+    $qb = $db->query("SELECT status_dospem FROM bimbingan WHERE kelompok_id = $kel_id LIMIT 1");
+    if ($qb->getNumRows() > 0 && $qb->getRowArray()['status_dospem'] == 'disetujui') {
+        $is_bimbingan_selesai = true;
+    }
+}
+
 $izin_history = [];
 if($kel_id > 0) {
     // In a real app we might have a separate history table for each submission attempt, 

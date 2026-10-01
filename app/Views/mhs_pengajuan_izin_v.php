@@ -192,18 +192,25 @@
             </div>
 
             <?php if ($is_user_ketua && count($izin_history) > 0 && empty($status_reset)): ?>
-            <div class="card" style="margin-top: 20px; border: 1px solid #dc3545; background-color: #fffafb;">
-                <h2 style="font-size: 16px; font-weight: 600; margin-bottom: 10px; color: #dc3545;"><i class="fa-solid fa-triangle-exclamation"></i> Pengajuan Ganti Perusahaan</h2>
-                <p style="font-size: 13px; margin-bottom: 15px;">Jika Anda ingin mengganti tempat Kerja Praktek (misal karena ditolak oleh perusahaan atau alasan lain), Anda dapat mengajukan reset progres ke Koordinator KP. <br><strong>Perhatian:</strong> Jika disetujui, seluruh data Instansi dan Bimbingan kelompok Anda saat ini akan dihapus dan Anda akan memulai kembali dari pengajuan izin!</p>
-                <form method="POST" id="formReset">
-                    <input type="hidden" name="action" value="req_reset">
-                    <div style="margin-bottom: 15px;">
-                        <label class="form-label" style="color: #dc3545;">Alasan Mengganti Perusahaan</label>
-                        <textarea name="alasan_reset" class="form-control" rows="3" required placeholder="Tuliskan secara jelas alasan mengapa Anda ingin mengganti instansi..."></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary" style="background-color: #dc3545; border: none;"><i class="fa-solid fa-rotate-left"></i> Ajukan Permohonan Reset</button>
-                </form>
-            </div>
+                <?php if ($is_bimbingan_selesai): ?>
+                <div class="card" style="margin-top: 20px; border: 1px solid #17a2b8; background-color: #f8ffff;">
+                    <h2 style="font-size: 16px; font-weight: 600; margin-bottom: 10px; color: #17a2b8;"><i class="fa-solid fa-lock"></i> Pengajuan Ganti Perusahaan Terkunci</h2>
+                    <p style="font-size: 13px; margin-bottom: 0;">Anda tidak dapat lagi mengajukan ganti perusahaan karena <strong>Dosen Pembimbing sudah memberikan ACC Akhir</strong>.</p>
+                </div>
+                <?php else: ?>
+                <div class="card" style="margin-top: 20px; border: 1px solid #dc3545; background-color: #fffafb;">
+                    <h2 style="font-size: 16px; font-weight: 600; margin-bottom: 10px; color: #dc3545;"><i class="fa-solid fa-triangle-exclamation"></i> Pengajuan Ganti Perusahaan</h2>
+                    <p style="font-size: 13px; margin-bottom: 15px;">Jika Anda ingin mengganti tempat Kerja Praktek (misal karena ditolak oleh perusahaan atau alasan lain), Anda dapat mengajukan reset progres ke Koordinator KP. <br><strong>Perhatian:</strong> Jika disetujui, seluruh data Instansi dan Bimbingan kelompok Anda saat ini akan dihapus dan Anda akan memulai kembali dari pengajuan izin!</p>
+                    <form method="POST" id="formReset">
+                        <input type="hidden" name="action" value="req_reset">
+                        <div style="margin-bottom: 15px;">
+                            <label class="form-label" style="color: #dc3545;">Alasan Mengganti Perusahaan</label>
+                            <textarea name="alasan_reset" class="form-control" rows="3" required placeholder="Tuliskan secara jelas alasan mengapa Anda ingin mengganti instansi..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="background-color: #dc3545; border: none;"><i class="fa-solid fa-rotate-left"></i> Ajukan Permohonan Reset</button>
+                    </form>
+                </div>
+                <?php endif; ?>
             <?php elseif (!empty($status_reset)): ?>
             <div class="card" style="margin-top: 20px; border: 1px solid #FFA94D; background-color: #fffaf0;">
                 <h2 style="font-size: 16px; font-weight: 600; margin-bottom: 10px; color: #d35400;">Status Pengajuan Ganti Perusahaan</h2>

@@ -45,7 +45,7 @@
                         </div>
                         <div class="doc-box">
                             <div>
-                                <div style="font-weight: 600; font-size: 13px;"><i class="fa-solid fa-file-pdf" style="color: #dc3545;"></i> Riwayat Studi (KHS/Transkrip)</div>
+                                <div style="font-weight: 600; font-size: 13px;"><i class="fa-solid fa-file-pdf" style="color: #dc3545;"></i> Riwayat Studi</div>
                                 <div style="font-size: 11px; color: var(--text-muted);"><?= htmlspecialchars($m['file_riwayat_studi'] ?? '-') ?></div>
                             </div>
                             <?php if (!empty($m['file_riwayat_studi'])): ?>

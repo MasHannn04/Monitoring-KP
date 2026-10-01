@@ -37,7 +37,7 @@
 
             <?php if ($state == 'belum_punya'): ?>
             <!-- FORM BUAT KELOMPOK BARU -->
-            <form method="POST" action="<?= base_url('mhs_pengajuan_kelompok') ?>" enctype="multipart/form-data" onsubmit="if(!document.getElementById('file-studi').value) { alert('PERINGATAN: Anda belum memasukkan file Riwayat Studi (KHS/Transkrip). Silakan pilih file PDF terlebih dahulu!'); return false; }">
+            <form method="POST" action="<?= base_url('mhs_pengajuan_kelompok') ?>" enctype="multipart/form-data" onsubmit="if(!document.getElementById('file-studi').value) { alert('PERINGATAN: Anda belum memasukkan file Riwayat Studi. Silakan pilih file PDF terlebih dahulu!'); return false; }">
                 <input type="hidden" name="action" value="create_draft">
                 <div class="form-group">
                     <label class="form-label">Tahun Akademik / Semester</label>
@@ -59,20 +59,20 @@
 
                 <div class="alert-secondary">
                     <i class="fa-solid fa-lightbulb" style="color: #ffc107; margin-top: 2px;"></i> 
-                    <div><strong>Ingin mengundang teman?</strong> Buat Draft Kelompok terlebih dahulu dengan mengunggah KHS Anda di bawah ini. Fitur pencarian dan undangan anggota akan otomatis terbuka setelah draft kelompok Anda berhasil dibuat.</div>
+                    <div><strong>Ingin mengundang teman?</strong> Buat Draft Kelompok terlebih dahulu dengan mengunggah Riwayat Studi Anda di bawah ini. Fitur pencarian dan undangan anggota akan otomatis terbuka setelah draft kelompok Anda berhasil dibuat.</div>
                 </div>
                 
 
 
                 <div class="form-group" style="padding: 20px; border: 1px solid var(--border-color); border-radius: 8px; background-color: #F8F9FA; margin-top: 30px;">
-                    <label class="form-label">Upload Dokumen Riwayat Studi Anda (KHS/Transkrip)</label>
+                    <label class="form-label">Upload Dokumen Riwayat Studi Anda</label>
                     <div class="alert-info" style="margin-bottom: 15px; padding: 10px 15px; font-size: 12px;">
                         <i class="fa-solid fa-triangle-exclamation"></i> Syarat wajib untuk validasi kelompok.
                     </div>
                     <div class="file-upload-wrapper" onclick="document.getElementById('file-studi').click()" style="padding: 20px; cursor: pointer; border: 2px dashed var(--primary-blue); border-radius: 6px; text-align: center; background-color: white;">
                         <i class="fa-solid fa-file-pdf" style="font-size: 24px; color: #dc3545; margin-bottom: 10px;"></i>
-                        <p id="file-name-display" style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">Klik untuk upload KHS/Transkrip (PDF)</p>
-                        <input type="file" id="file-studi" name="khs" style="display: none;" accept="application/pdf" required onchange="document.getElementById('file-name-display').innerText = this.files.length > 0 ? 'Terpilih: ' + this.files[0].name : 'Klik untuk upload KHS/Transkrip (PDF)'; document.getElementById('file-name-display').style.color = this.files.length > 0 ? 'green' : 'inherit';">
+                        <p id="file-name-display" style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">Klik untuk upload Riwayat Studi (PDF)</p>
+                        <input type="file" id="file-studi" name="khs" style="display: none;" accept="application/pdf" required onchange="document.getElementById('file-name-display').innerText = this.files.length > 0 ? 'Terpilih: ' + this.files[0].name : 'Klik untuk upload Riwayat Studi (PDF)'; document.getElementById('file-name-display').style.color = this.files.length > 0 ? 'green' : 'inherit';">
                     </div>
                 </div>
 
@@ -185,7 +185,7 @@
                             <form method="POST" action="<?= base_url('mhs_pengajuan_kelompok') ?>" enctype="multipart/form-data" style="margin-bottom: 12px;">
                                 <input type="hidden" name="action" value="terima_invite">
                                 <input type="hidden" name="kel_id" value="<?= $inv['kelompok_id'] ?>">
-                                <div style="font-size: 11px; margin-bottom: 8px; color: var(--text-muted);">Upload KHS untuk menerima ajakan:</div>
+                                <div style="font-size: 11px; margin-bottom: 8px; color: var(--text-muted);">Upload Riwayat Studi untuk menerima ajakan:</div>
                                 <input type="file" name="khs" accept=".pdf" required class="form-control" style="font-size: 12px; padding: 8px; margin-bottom: 10px;">
                                 <button type="submit" class="btn btn-success" style="width: 100%;"><i class="fa-solid fa-check"></i> Terima Ajakan & Upload</button>
                             </form>
