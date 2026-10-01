@@ -11,6 +11,12 @@
         <i class="fa-solid fa-check-circle" style="margin-top: 2px;"></i> 
         <div>Kelompok Anda telah diajukan/disetujui. Data tidak dapat diubah lagi.</div>
     </div>
+    <?php if(!empty($kelompok_data['koor_note'])): ?>
+    <div class="alert-info">
+        <i class="fa-solid fa-note-sticky" style="margin-top: 2px;"></i> 
+        <div><strong>Catatan Koordinator:</strong> <?= htmlspecialchars($kelompok_data['koor_note']) ?></div>
+    </div>
+    <?php endif; ?>
     <?php else: ?>
     <div class="alert-info">
         <i class="fa-solid fa-circle-info" style="margin-top: 2px;"></i>
@@ -71,8 +77,8 @@
                     </div>
                     <div class="file-upload-wrapper" onclick="document.getElementById('file-studi').click()" style="padding: 20px; cursor: pointer; border: 2px dashed var(--primary-blue); border-radius: 6px; text-align: center; background-color: white;">
                         <i class="fa-solid fa-file-pdf" style="font-size: 24px; color: #dc3545; margin-bottom: 10px;"></i>
-                        <p id="file-name-display" style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">Klik untuk upload Riwayat Studi (PDF)</p>
-                        <input type="file" id="file-studi" name="khs" style="display: none;" accept="application/pdf" required onchange="document.getElementById('file-name-display').innerText = this.files.length > 0 ? 'Terpilih: ' + this.files[0].name : 'Klik untuk upload Riwayat Studi (PDF)'; document.getElementById('file-name-display').style.color = this.files.length > 0 ? 'green' : 'inherit';">
+                        <p id="file-name-display" style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">Klik untuk upload Riwayat Studi (PDF - Maks 10MB)</p>
+                        <input type="file" id="file-studi" name="khs" style="display: none;" accept="application/pdf" required onchange="if(this.files[0] && this.files[0].size > 10485760){ alert('Error: Ukuran file melebihi 10MB!'); this.value=''; document.getElementById('file-name-display').innerText = 'Klik untuk upload Riwayat Studi (PDF - Maks 10MB)'; document.getElementById('file-name-display').style.color = 'inherit'; return; } document.getElementById('file-name-display').innerText = this.files.length > 0 ? 'Terpilih: ' + this.files[0].name : 'Klik untuk upload Riwayat Studi (PDF - Maks 10MB)'; document.getElementById('file-name-display').style.color = this.files.length > 0 ? 'green' : 'inherit';">
                     </div>
                 </div>
 
@@ -185,8 +191,8 @@
                             <form method="POST" action="<?= base_url('mhs_pengajuan_kelompok') ?>" enctype="multipart/form-data" style="margin-bottom: 12px;">
                                 <input type="hidden" name="action" value="terima_invite">
                                 <input type="hidden" name="kel_id" value="<?= $inv['kelompok_id'] ?>">
-                                <div style="font-size: 11px; margin-bottom: 8px; color: var(--text-muted);">Upload Riwayat Studi untuk menerima ajakan:</div>
-                                <input type="file" name="khs" accept=".pdf" required class="form-control" style="font-size: 12px; padding: 8px; margin-bottom: 10px;">
+                                <div style="font-size: 11px; margin-bottom: 8px; color: var(--text-muted);">Upload Riwayat Studi untuk menerima ajakan (Wajib PDF, Maks 10MB):</div>
+                                <input type="file" name="khs" accept=".pdf" required class="form-control" style="font-size: 12px; padding: 8px; margin-bottom: 10px;" onchange="if(this.files[0] && this.files[0].size > 10485760){ alert('Error: Ukuran file melebihi 10MB!'); this.value=''; }">
                                 <button type="submit" class="btn btn-success" style="width: 100%;"><i class="fa-solid fa-check"></i> Terima Ajakan & Upload</button>
                             </form>
                             <form method="POST" action="<?= base_url('mhs_pengajuan_kelompok') ?>">
@@ -248,8 +254,10 @@
                             <div style="font-size: 12px; margin-top: 5px;">
                                 Status: <strong><?= strtoupper($sub['status_kelompok']) ?></strong>
                             </div>
-                            <?php if ($sub['status_kelompok'] == 'ditolak'): ?>
-                                <div style="font-size: 11px; color: #dc3545; margin-top: 5px;">Alasan: <?= htmlspecialchars($sub['koor_note']) ?></div>
+                            <?php if (!empty($sub['koor_note'])): ?>
+                                <div style="font-size: 11px; color: <?= $sub['status_kelompok'] == 'ditolak' ? '#dc3545' : '#17a2b8' ?>; margin-top: 5px;">
+                                    <strong>Catatan:</strong> <?= htmlspecialchars($sub['koor_note']) ?>
+                                </div>
                             <?php endif; ?>
                         </div>
                     <?php endforeach; ?>

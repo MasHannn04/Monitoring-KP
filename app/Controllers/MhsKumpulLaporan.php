@@ -47,7 +47,7 @@ if ($kel_id > 0) {
     }
 
     // Get grades
-    $qs = $db->query("SELECT nilai_penguji1, nilai_penguji2 FROM anggota_kelompok WHERE kelompok_id = $kel_id AND mahasiswa_id = $mhs_id");
+    $qs = $db->query("SELECT nilai_penguji1, nilai_penguji2, revisi_penguji1, revisi_penguji2 FROM anggota_kelompok WHERE kelompok_id = $kel_id AND mahasiswa_id = $mhs_id");
     if($qs && $qs->getNumRows() > 0) {
         $sem = $qs->getRowArray();
         if ($sem['nilai_penguji1'] !== null && $sem['nilai_penguji2'] !== null) {

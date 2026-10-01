@@ -44,7 +44,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
         }
         
         // Approve bimbingan
-        $db->query("UPDATE bimbingan SET status_bimbingan = 'disetujui', file_surat_tugas = '$filename' WHERE id = $id");
+        $note = $db->escapeString($_POST['bimbingan_note'] ?? '');
+        $db->query("UPDATE bimbingan SET status_bimbingan = 'disetujui', file_surat_tugas = '$filename', bimbingan_note = '$note' WHERE id = $id");
         
         // Find kelompok_id for this bimbingan
         $qb = $db->query("SELECT kelompok_id FROM bimbingan WHERE id = $id");
@@ -56,6 +57,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
     } elseif ($_POST['action'] == 'reject') {
         $note = $db->escapeString($_POST['bimbingan_note'] ?? '');
         $db->query("UPDATE bimbingan SET status_bimbingan = 'ditolak', bimbingan_note = '$note' WHERE id = $id");
+    } elseif ($_POST['action'] == 'update_dosen_bidang') {
+        $kel_id = (int)$_POST['kelompok_id'];
+        $new_dospem = (int)$_POST['dospem_id'];
+        $new_bidang = isset($_POST['bidang_kp']) ? $db->escapeString($_POST['bidang_kp']) : '';
+        
+        if ($new_dospem > 0) {
+            $db->query("UPDATE kelompok SET dospem_id = $new_dospem WHERE id = $kel_id");
+        }
+        if (!empty($new_bidang)) {
+            $db->query("UPDATE instansi SET bidang_kp = '$new_bidang' WHERE kelompok_id = $kel_id");
+        }
+        
+        $_SESSION['swal_msg'] = 'Dosen Pembimbing dan Bidang KP berhasil diperbarui.';
+        $_SESSION['swal_type'] = 'success';
+        return redirect()->to(base_url('koor_detail_bimbingan?id=' . $id));
     }
     
     $_SESSION['swal_msg'] = 'Validasi Bimbingan & Dospem tersimpan!';
@@ -89,11 +105,22 @@ if ($bimbingan_id > 0) {
     }
 } else {
     $_SESSION['swal_msg'] = 'ID tidak valid!';
-            $_SESSION['swal_type'] = 'error';
-            return redirect()->to(base_url('koor_approval_bimbingan'));
+    $_SESSION['swal_type'] = 'error';
+    return redirect()->to(base_url('koor_approval_bimbingan'));
 }
 
-// Fetch list of dosen for dropdown
+$jadwal_seminar_keluar = false;
+$kelompok_data = null;
+if (isset($kel_id)) {
+    $q_sem = $db->query("SELECT status_koor FROM seminar WHERE kelompok_id = $kel_id");
+    if ($q_sem && $q_sem->getNumRows() > 0) {
+        if ($q_sem->getRowArray()['status_koor'] == 'dijadwalkan') {
+            $jadwal_seminar_keluar = true;
+        }
+    }
+    $kelompok_data = $db->query("SELECT dospem_id FROM kelompok WHERE id = $kel_id")->getRowArray();
+}
+
 $dosen_list = [];
 $qd = $db->query("SELECT id, nama FROM users WHERE role = 'dosen'");
 foreach ($qd->getResultArray() as $r) {

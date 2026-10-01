@@ -13,6 +13,7 @@
             <table class="table" style="font-size: 12px; width: 100%; border-collapse: collapse;" id="rekapTable">
                 <thead>
                     <tr>
+                        <th style="white-space: nowrap;">Tgl Seminar</th>
                         <th style="white-space: nowrap;">NPM</th>
                         <th style="min-width: 120px; max-width: 180px; white-space: normal;">Nama Lengkap</th>
                         <th style="text-align: center;">Penguji 1</th>
@@ -30,6 +31,7 @@
                     <?php else: ?>
                     <?php foreach($mahasiswa_list as $m): ?>
                     <tr style="border-bottom: 1px solid #eee;">
+                        <td style="white-space: nowrap; padding: 10px; color: var(--text-muted); font-size: 11px;"><?= $m['tgl_seminar'] ? date('Y-m-d', strtotime($m['tgl_seminar'])) : '-' ?></td>
                         <td style="white-space: nowrap; padding: 10px;"><?= htmlspecialchars($m['npm_nip']) ?></td>
                         <td style="padding: 10px; font-weight: 500; max-width: 180px; white-space: normal; word-wrap: break-word;"><?= htmlspecialchars($m['nama']) ?></td>
                         
@@ -81,7 +83,7 @@
             },
             "lengthMenu": [[25, 50, 100, 200, 500, -1], [25, 50, 100, 200, 500, "Semua"]],
             "pageLength": 25,
-            "order": [[ 0, "asc" ]]
+            "order": [[ 0, "desc" ]]
         });
     });
 </script>

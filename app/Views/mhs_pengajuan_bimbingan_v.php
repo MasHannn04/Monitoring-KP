@@ -28,8 +28,16 @@
                 <i class="fa-solid fa-triangle-exclamation"></i>
                 <div>
                     <div>Pengajuan Bimbingan Anda <strong>Ditolak</strong> oleh Koordinator.</div>
-                    <div style="margin-top: 4px;"><strong>Alasan:</strong> <?= htmlspecialchars($bimbingan_data['bimbingan_note'] ?? 'Tidak ada alasan.') ?> Silakan perbaiki data di bawah ini dan ajukan kembali.</div>
+                    <?php if(!empty($bimbingan_data['bimbingan_note'])): ?>
+                    <div style="margin-top: 4px;"><strong>Catatan/Alasan:</strong> <?= htmlspecialchars($bimbingan_data['bimbingan_note']) ?></div>
+                    <?php endif; ?>
+                    <div style="margin-top: 4px;">Silakan perbaiki data di bawah ini dan ajukan kembali.</div>
                 </div>
+            </div>
+            <?php elseif(isset($bimbingan_data) && $bimbingan_data['status_bimbingan'] == 'disetujui' && !empty($bimbingan_data['bimbingan_note'])): ?>
+            <div class="alert-info">
+                <i class="fa-solid fa-note-sticky" style="margin-top: 2px;"></i>
+                <div><strong>Catatan Koordinator:</strong> <?= htmlspecialchars($bimbingan_data['bimbingan_note']) ?></div>
             </div>
             <?php endif; ?>
 
@@ -80,23 +88,29 @@
                     </div>
 
                     <h3 style="font-size: 15px; font-weight: 600; margin-bottom: 15px; margin-top: 15px; color: var(--primary-blue); border-bottom: 1px solid var(--border-color); padding-bottom: 10px;"><i class="fa-solid fa-upload"></i> Upload Dokumen Pendukung</h3>
+                    <div class="alert-info" style="margin-bottom: 15px; font-size: 12px; padding: 10px; display: flex; align-items: center; gap: 10px;">
+                        <i class="fa-solid fa-circle-info"></i> 
+                        <span>Khusus untuk <strong>Slip Pembayaran Bimbingan KP</strong>, mahasiswa diwajibkan untuk mengumpulkan lembar fisiknya secara langsung kepada Koordinator KP.</span>
+                    </div>
 
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                        <div class="form-group">
-                            <label class="form-label">Upload Surat Balasan (Diterima) (PDF/JPG)</label>
+                        <div class="form-group" style="display: flex; flex-direction: column; height: 100%;">
+                            <label class="form-label" style="margin-bottom: 2px;">Upload Surat Balasan (Diterima)</label>
+                            <span style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 15px;">(Wajib PDF, Maks 10MB)</span>
                             <div class="file-upload-wrapper" <?= (!$is_readonly && $is_user_ketua) ? 'onclick="document.getElementById(\'file-surat\').click()"' : 'style="background-color: #f8f9fa; cursor: not-allowed;"' ?>>
                                 <i class="fa-solid fa-envelope-open-text" style="font-size: 24px; color: var(--primary-blue); margin-bottom: 10px;"></i>
-                                <p id="text-surat" style="font-size: 13px; font-weight: 600;"><?= $is_readonly ? 'Dokumen sudah diupload' : 'Klik untuk upload Surat Balasan' ?></p>
-                                <input type="file" name="file_surat" id="file-surat" style="display: none;" accept="application/pdf,image/*" onchange="document.getElementById('text-surat').innerText = this.files[0] ? this.files[0].name : 'Klik untuk upload Surat Balasan'">
+                                <p id="text-surat" style="font-size: 13px; font-weight: 600; text-align: center; word-break: break-all; padding: 0 10px;"><?= $is_readonly ? 'Dokumen sudah diupload' : 'Klik untuk upload Surat Balasan' ?></p>
+                                <input type="file" name="file_surat" id="file-surat" style="display: none;" accept="application/pdf" onchange="if(this.files[0] && this.files[0].size > 10485760){ alert('Error: Ukuran file melebihi 10MB!'); this.value=''; document.getElementById('text-surat').innerText = 'Klik untuk upload Surat Balasan'; return; } document.getElementById('text-surat').innerText = this.files[0] ? this.files[0].name : 'Klik untuk upload Surat Balasan'">
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="form-label">Upload Slip Pembayaran Bimbingan KP (JPG/PDF)</label>
+                        <div class="form-group" style="display: flex; flex-direction: column; height: 100%;">
+                            <label class="form-label" style="margin-bottom: 2px;">Upload Slip Pembayaran Bimbingan KP</label>
+                            <span style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 15px;">(Wajib PDF, Maks 10MB)</span>
                             <div class="file-upload-wrapper" <?= (!$is_readonly && $is_user_ketua) ? 'onclick="document.getElementById(\'file-slip\').click()"' : 'style="background-color: #f8f9fa; cursor: not-allowed;"' ?>>
                                 <i class="fa-solid fa-receipt" style="font-size: 24px; color: var(--success-green); margin-bottom: 10px;"></i>
-                                <p id="text-slip" style="font-size: 13px; font-weight: 600;"><?= $is_readonly ? 'Dokumen sudah diupload' : 'Klik untuk upload Slip Bayar' ?></p>
-                                <input type="file" name="file_slip" id="file-slip" style="display: none;" accept="application/pdf,image/*" onchange="document.getElementById('text-slip').innerText = this.files[0] ? this.files[0].name : 'Klik untuk upload Slip Bayar'">
+                                <p id="text-slip" style="font-size: 13px; font-weight: 600; text-align: center; word-break: break-all; padding: 0 10px;"><?= $is_readonly ? 'Dokumen sudah diupload' : 'Klik untuk upload Slip Bayar' ?></p>
+                                <input type="file" name="file_slip" id="file-slip" style="display: none;" accept="application/pdf" onchange="if(this.files[0] && this.files[0].size > 10485760){ alert('Error: Ukuran file melebihi 10MB!'); this.value=''; document.getElementById('text-slip').innerText = 'Klik untuk upload Slip Bayar'; return; } document.getElementById('text-slip').innerText = this.files[0] ? this.files[0].name : 'Klik untuk upload Slip Bayar'">
                             </div>
                         </div>
                     </div>

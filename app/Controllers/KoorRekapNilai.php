@@ -20,12 +20,13 @@ class KoorRekapNilai extends BaseController
                 u.nama, 
                 ak.nilai_penguji1, 
                 ak.nilai_penguji2, 
-                l.nilai_perusahaan
+                l.nilai_perusahaan,
+                s.tgl_seminar
             FROM users u
             JOIN anggota_kelompok ak ON u.id = ak.mahasiswa_id
             JOIN seminar s ON ak.kelompok_id = s.kelompok_id
             LEFT JOIN laporan_akhir l ON s.kelompok_id = l.kelompok_id
-            WHERE u.role = 'mahasiswa' 
+            WHERE u.role = 'mahasiswa' AND ak.status_anggota != 'dikeluarkan'
             ORDER BY u.npm_nip ASC
         ";
         

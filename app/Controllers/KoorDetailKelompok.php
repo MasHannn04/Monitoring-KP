@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $mhs_id = (int)$_POST['mhs_id'];
 
         $cek = $db->query("SELECT is_ketua FROM anggota_kelompok WHERE kelompok_id = $kel_id AND mahasiswa_id = $mhs_id")->getRowArray();
-        $db->query("UPDATE anggota_kelompok SET status_anggota = 'dikeluarkan' WHERE kelompok_id = $kel_id AND mahasiswa_id = $mhs_id");
+        $db->query("UPDATE anggota_kelompok SET status_anggota = 'dikeluarkan', is_ketua = 0 WHERE kelompok_id = $kel_id AND mahasiswa_id = $mhs_id");
 
         if ($cek && $cek['is_ketua']) {
             $lain = $db->query("SELECT mahasiswa_id FROM anggota_kelompok WHERE kelompok_id = $kel_id AND status_anggota = 'menerima' LIMIT 1")->getRowArray();
@@ -39,12 +39,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['swal_msg'] = 'Mahasiswa berhasil dikeluarkan dari kelompok.';
         }
         $_SESSION['swal_type'] = 'success';
+        $_SESSION['swal_type'] = 'success';
+        return redirect()->to(base_url('koor_detail_kelompok?id=' . $kel_id));
+    }
+    
+    if (isset($_POST['add_member'])) {
+        $kel_id = $id;
+        $mhs_id = (int)$_POST['mhs_id'];
+        
+        $q_count = $db->query("SELECT count(*) as c FROM anggota_kelompok WHERE kelompok_id = $kel_id AND status_anggota = 'menerima'");
+        if ($q_count->getRowArray()['c'] >= 3) {
+            $_SESSION['swal_msg'] = 'Kelompok sudah penuh (Maksimal 3 anggota).';
+            $_SESSION['swal_type'] = 'error';
+        } else {
+            $db->query("INSERT INTO anggota_kelompok (kelompok_id, mahasiswa_id, is_ketua, status_anggota, file_riwayat_studi) VALUES ($kel_id, $mhs_id, 0, 'menerima', '')");
+            $_SESSION['swal_msg'] = 'Mahasiswa berhasil ditambahkan ke kelompok.';
+            $_SESSION['swal_type'] = 'success';
+        }
         return redirect()->to(base_url('koor_detail_kelompok?id=' . $kel_id));
     }
     
     if (isset($_POST['approve'])) {
-        $db->query("UPDATE kelompok SET status_kelompok = 'disetujui' WHERE id = $id");
-    } else {
+        $note = $db->escapeString($_POST['koor_note'] ?? '');
+        $db->query("UPDATE kelompok SET status_kelompok = 'disetujui', koor_note = '$note' WHERE id = $id");
+    } else if (isset($_POST['reject'])) {
         $note = $db->escapeString($_POST['koor_note'] ?? '');
         $db->query("UPDATE kelompok SET status_kelompok = 'ditolak', koor_note = '$note' WHERE id = $id");
     }
@@ -71,6 +89,27 @@ foreach ($q_m->getResultArray() as $m) {
     }
 }
 
+$mhs_belum_kelompok = [];
+$q_mb = $db->query("SELECT u.id, u.nama, u.npm_nip FROM users u WHERE u.role = 'mahasiswa' AND u.id NOT IN (SELECT mahasiswa_id FROM anggota_kelompok WHERE status_anggota IN ('menerima', 'menunggu')) ORDER BY u.nama ASC");
+if ($q_mb) {
+    $mhs_belum_kelompok = $q_mb->getResultArray();
+}
+
+$jadwal_seminar_keluar = false;
+$q_sem = $db->query("SELECT status_koor FROM seminar WHERE kelompok_id = $id");
+if ($q_sem && $q_sem->getNumRows() > 0) {
+    if ($q_sem->getRowArray()['status_koor'] == 'dijadwalkan') {
+        $jadwal_seminar_keluar = true;
+    }
+}
+
+$dosen_list = [];
+$q_d = $db->query("SELECT id, nama FROM users WHERE role = 'dosen' ORDER BY nama ASC");
+if ($q_d) {
+    $dosen_list = $q_d->getResultArray();
+}
+
+$instansi_data = $db->query("SELECT id, bidang_kp FROM instansi WHERE kelompok_id = $id")->getRowArray();
 
 $page_title = 'Koor Detail Kelompok';
 echo view('layout/header.php', get_defined_vars());

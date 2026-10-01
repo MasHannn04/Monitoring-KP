@@ -30,7 +30,8 @@ class KoorDetailIzin extends BaseController
                     echo "<script>window.history.back();</script>";
                     return;
                 }
-                $db->query("UPDATE instansi SET status_izin = 'disetujui', file_surat_izin = '$filename' WHERE id = $id");
+                $note = $db->escapeString($_POST['izin_note'] ?? '');
+                $db->query("UPDATE instansi SET status_izin = 'disetujui', file_surat_izin = '$filename', izin_note = '$note' WHERE id = $id");
             } elseif ($_POST['action'] == 'reject') {
                 $note = $db->escapeString($_POST['izin_note'] ?? '');
                 $db->query("UPDATE instansi SET status_izin = 'ditolak', izin_note = '$note' WHERE id = $id");

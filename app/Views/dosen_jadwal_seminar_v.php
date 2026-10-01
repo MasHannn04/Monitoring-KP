@@ -61,7 +61,7 @@
     <div class="card">
         <h2 style="font-size: 16px; font-weight: 600; margin-bottom: 20px;">Jadwal Seminar (Sebagai Pembimbing)</h2>
         <div class="table-responsive">
-            <table class="table" style="font-size: 12px; width: 100%; min-width: 700px;">
+            <table class="table datatable" style="font-size: 12px; width: 100%; min-width: 700px;">
                 <thead>
                     <tr style="background-color: #f8f9fa;">
                         <th width="5%">No <i class="fa-solid fa-sort" style="color: #ccc; font-size: 10px;"></i></th>
@@ -106,7 +106,7 @@
     <div class="card">
         <h2 style="font-size: 16px; font-weight: 600; margin-bottom: 20px;">Jadwal Seminar (Sebagai Penguji)</h2>
         <div class="table-responsive">
-            <table class="table" style="font-size: 12px; width: 100%; min-width: 700px;">
+            <table class="table datatable" style="font-size: 12px; width: 100%; min-width: 700px;">
                 <thead>
                     <tr style="background-color: #f8f9fa;">
                         <th width="5%">No <i class="fa-solid fa-sort" style="color: #ccc; font-size: 10px;"></i></th>
@@ -148,3 +148,23 @@
     </div>
 
 </div>
+
+<!-- jQuery (Required by DataTables) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- DataTables CSS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<!-- DataTables JS -->
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('.datatable').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/id.json"
+            },
+            "lengthMenu": [[25, 50, 100, 200, 500, -1], [25, 50, 100, 200, 500, "Semua"]],
+            "pageLength": 25,
+            "order": []
+        });
+    });
+</script>

@@ -71,7 +71,7 @@ if($seminar_id > 0) {
             SELECT ak.*, u.nama, u.npm_nip 
             FROM anggota_kelompok ak
             JOIN users u ON ak.mahasiswa_id = u.id
-            WHERE ak.kelompok_id = " . $seminar_data['kelompok_id'] . "
+            WHERE ak.kelompok_id = " . $seminar_data['kelompok_id'] . " AND ak.status_anggota != 'dikeluarkan'
             ORDER BY ak.is_ketua DESC, u.npm_nip ASC
         ");
         $anggota_list = $q_anggota->getResultArray();

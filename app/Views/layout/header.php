@@ -17,7 +17,7 @@
         .form-label { display: block; margin-bottom: 8px; font-size: 13px; font-weight: 600; color: var(--text-dark); }
         .form-control { width: 100%; padding: 10px 15px; font-size: 14px; border: 1px solid var(--border-color); border-radius: 6px; outline: none; transition: border-color 0.2s; }
         .form-control:focus { border-color: var(--primary-blue); }
-        .file-upload-wrapper { border: 2px dashed var(--border-color); padding: 25px; text-align: center; border-radius: 6px; background-color: #F8F9FA; cursor: pointer; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .file-upload-wrapper { border: 2px dashed var(--border-color); padding: 25px; text-align: center; border-radius: 6px; background-color: #F8F9FA; cursor: pointer; flex: 1; width: 100%; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; align-items: center; }
         .file-upload-wrapper:hover { border-color: var(--primary-blue); background-color: #EBF4FF; }
         .alert-info, .alert-success, .alert-warning, .alert-danger, .alert-secondary { padding: 15px 20px; border-radius: 8px; margin-bottom: 20px; font-size: 13px; display: flex; align-items: center; gap: 12px; line-height: 1.6; }
         .alert-info { background-color: #E8F4FD; color: #0c5460; border: 1px solid #b8daff; }

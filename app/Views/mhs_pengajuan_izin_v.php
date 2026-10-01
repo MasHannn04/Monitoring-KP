@@ -35,7 +35,19 @@
                 <?php elseif($instansi_data['status_izin'] == 'ditolak'): ?>
                 <div class="alert-danger">
                     <i class="fa-solid fa-circle-xmark" style="margin-top: 2px;"></i>
-                    <div>Pengajuan Surat Izin KP Anda ditolak. Silakan perbaiki dan ajukan kembali.</div>
+                    <div>
+                        <div>Pengajuan Surat Izin KP Anda ditolak. Silakan perbaiki dan ajukan kembali.</div>
+                        <?php if(!empty($instansi_data['izin_note'])): ?>
+                            <div style="margin-top: 4px;"><strong>Catatan/Alasan:</strong> <?= htmlspecialchars($instansi_data['izin_note']) ?></div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <?php endif; ?>
+
+                <?php if($instansi_data['status_izin'] == 'disetujui' && !empty($instansi_data['izin_note'])): ?>
+                <div class="alert-info">
+                    <i class="fa-solid fa-note-sticky" style="margin-top: 2px;"></i>
+                    <div><strong>Catatan Koordinator:</strong> <?= htmlspecialchars($instansi_data['izin_note']) ?></div>
                 </div>
                 <?php endif; ?>
             <?php endif; ?>
@@ -85,7 +97,7 @@
             </div>
             
             <div style="margin-bottom: 15px;">
-                <label class="form-label">Penerima Surat Izin KP (Ditujukan Kepada)</label>
+                <label class="form-label">Penerima Surat Izin KP (Kepala HRD, Manager, Pimpinan Perusahaan, Kepala Dinas, Kepala Divisi, dan lain sebagainya)</label>
                 <input type="text" class="form-control" name="field_7" placeholder="Contoh: Yth. HRD Manager / Kepala Bagian SDM" value="<?= htmlspecialchars($instansi_data['ditujukan_kepada'] ?? '') ?>" <?= (!$is_user_ketua || $is_readonly) ? 'readonly style="background-color: #e9ecef; color: #6c757d; cursor: not-allowed;"' : '' ?> required>
             </div>
 

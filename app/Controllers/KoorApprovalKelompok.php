@@ -34,7 +34,7 @@ $kelompok_list = [];
 if($q_kel) {
     foreach ($q_kel->getResultArray() as $r){ 
         $kel_id = $r['id'];
-        $q_m = $db->query("SELECT u.nama, a.is_ketua, a.status_anggota FROM anggota_kelompok a JOIN users u ON a.mahasiswa_id = u.id WHERE a.kelompok_id = $kel_id ORDER BY a.is_ketua DESC");
+        $q_m = $db->query("SELECT u.nama, a.is_ketua, a.status_anggota FROM anggota_kelompok a JOIN users u ON a.mahasiswa_id = u.id WHERE a.kelompok_id = $kel_id AND a.status_anggota != 'dikeluarkan' ORDER BY a.is_ketua DESC");
         $members = [];
         $semua_menerima = true;
         foreach ($q_m->getResultArray() as $m) {

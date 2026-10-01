@@ -45,23 +45,29 @@
                     </div>
 
                     <h3 style="font-size: 15px; font-weight: 600; margin-bottom: 15px; margin-top: 15px; color: var(--primary-blue); border-bottom: 1px solid var(--border-color); padding-bottom: 10px;"><i class="fa-solid fa-upload"></i> Upload Dokumen Syarat Seminar</h3>
+                    <div class="alert-info" style="margin-bottom: 15px; font-size: 12px; padding: 10px; display: flex; align-items: center; gap: 10px;">
+                        <i class="fa-solid fa-circle-info"></i> 
+                        <span>Khusus untuk <strong>Slip Pembayaran Seminar KP</strong>, mahasiswa diwajibkan untuk mengumpulkan lembar fisiknya secara langsung kepada Koordinator KP.</span>
+                    </div>
 
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                        <div class="form-group">
-                            <label class="form-label">Upload Slip Pembayaran Seminar KP (JPG/PDF)</label>
+                        <div class="form-group" style="display: flex; flex-direction: column; height: 100%;">
+                            <label class="form-label" style="margin-bottom: 2px;">Upload Slip Pembayaran Seminar KP</label>
+                            <span style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 15px;">(Wajib PDF, Maks 10MB)</span>
                             <div class="file-upload-wrapper" <?= (!$is_readonly && $is_user_ketua) ? 'onclick="document.getElementById(\'file-slip\').click()"' : 'style="background-color: #f8f9fa; cursor: not-allowed;"' ?>>
                                 <i class="fa-solid fa-receipt" style="font-size: 24px; color: var(--success-green); margin-bottom: 10px;"></i>
-                                <p style="font-size: 13px; font-weight: 600; margin-bottom: 5px;" id="text-file-slip"><?= $is_readonly ? htmlspecialchars($seminar_data['file_slip_seminar']) : 'Upload Slip Pembayaran' ?></p>
-                                <input type="file" name="file_slip_seminar" id="file-slip" style="display: none;" accept="application/pdf,image/*" <?= ($is_readonly || !$is_user_ketua) ? '' : 'required onchange="document.getElementById(\'text-file-slip\').innerText = this.files[0].name"' ?>>
+                                <p style="font-size: 13px; font-weight: 600; margin-bottom: 5px; text-align: center; word-break: break-all; padding: 0 10px;" id="text-file-slip"><?= $is_readonly ? htmlspecialchars($seminar_data['file_slip_seminar']) : 'Upload Slip Pembayaran' ?></p>
+                                <input type="file" name="file_slip_seminar" id="file-slip" style="display: none;" accept="application/pdf" <?= ($is_readonly || !$is_user_ketua) ? '' : 'required onchange="if(this.files[0] && this.files[0].size > 10485760){ alert(\'Error: Ukuran file melebihi 10MB!\'); this.value=\'\'; document.getElementById(\'text-file-slip\').innerText = \'Upload Slip Pembayaran\'; return; } document.getElementById(\'text-file-slip\').innerText = this.files[0].name"' ?>>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="form-label">Upload Laporan KP (Draft Final) (PDF)</label>
+                        <div class="form-group" style="display: flex; flex-direction: column; height: 100%;">
+                            <label class="form-label" style="margin-bottom: 2px;">Upload Laporan KP (Draft Final)</label>
+                            <span style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 15px;">(Wajib PDF, Maks 10MB)</span>
                             <div class="file-upload-wrapper" <?= (!$is_readonly && $is_user_ketua) ? 'onclick="document.getElementById(\'file-laporan\').click()"' : 'style="background-color: #f8f9fa; cursor: not-allowed;"' ?>>
                                 <i class="fa-solid fa-file-pdf" style="font-size: 24px; color: #dc3545; margin-bottom: 10px;"></i>
-                                <p style="font-size: 13px; font-weight: 600; margin-bottom: 5px;" id="text-file-laporan"><?= $is_readonly ? htmlspecialchars($seminar_data['file_draft_laporan']) : 'Upload Laporan KP' ?></p>
-                                <input type="file" name="file_draft_laporan" id="file-laporan" style="display: none;" accept="application/pdf" <?= ($is_readonly || !$is_user_ketua) ? '' : 'required onchange="document.getElementById(\'text-file-laporan\').innerText = this.files[0].name"' ?>>
+                                <p style="font-size: 13px; font-weight: 600; margin-bottom: 5px; text-align: center; word-break: break-all; padding: 0 10px;" id="text-file-laporan"><?= $is_readonly ? htmlspecialchars($seminar_data['file_draft_laporan']) : 'Upload Laporan KP' ?></p>
+                                <input type="file" name="file_draft_laporan" id="file-laporan" style="display: none;" accept="application/pdf" <?= ($is_readonly || !$is_user_ketua) ? '' : 'required onchange="if(this.files[0] && this.files[0].size > 10485760){ alert(\'Error: Ukuran file melebihi 10MB!\'); this.value=\'\'; document.getElementById(\'text-file-laporan\').innerText = \'Upload Laporan KP\'; return; } document.getElementById(\'text-file-laporan\').innerText = this.files[0].name"' ?>>
                             </div>
                         </div>
                     </div>

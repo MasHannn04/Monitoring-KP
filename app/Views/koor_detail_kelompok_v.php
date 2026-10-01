@@ -71,8 +71,8 @@
                         <form method="POST" action="<?= base_url('koor_detail_kelompok') ?>?id=<?= $id ?>">
                             <input type="hidden" name="id" value="<?= $id ?>">
                             <div style="margin-bottom: 20px;">
-                                <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 5px;">Alasan Penolakan (Hanya diisi jika menolak)</label>
-                                <textarea name="koor_note" rows="4" style="width: 100%; font-size: 12px; padding: 8px; border: 1px solid var(--border-color); border-radius: 4px;" placeholder="Contoh: SKS anggota 2 belum memenuhi batas minimal..."></textarea>
+                                <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 5px;">Catatan Koordinator / Alasan Penolakan (Jika Ada)</label>
+                                <textarea name="koor_note" rows="4" style="width: 100%; font-size: 12px; padding: 8px; border: 1px solid var(--border-color); border-radius: 4px;" placeholder="Isi catatan jika ada pesan khusus, atau alasan jika ditolak..."></textarea>
                             </div>
 
                             <div style="display: flex; gap: 10px;">
@@ -86,6 +86,32 @@
                             </div>
                         <?php endif; ?>
                     </div>
+                    
+                    <?php if($kelompok['status_kelompok'] == 'disetujui'): ?>
+                    <div class="action-box" style="margin-top: 20px;">
+                        <h3 style="font-size: 15px; font-weight: 600; margin-bottom: 15px;"><i class="fa-solid fa-user-plus"></i> Tambah Anggota Susulan</h3>
+                        <?php if($active_members_count >= 3): ?>
+                            <div class="alert-info" style="margin-bottom: 0;">Kelompok sudah penuh (3 anggota).</div>
+                        <?php elseif($jadwal_seminar_keluar): ?>
+                            <div class="alert-warning" style="margin-bottom: 0;">Tidak dapat menambah anggota (Jadwal Sidang sudah keluar).</div>
+                        <?php else: ?>
+                            <form method="POST" action="<?= base_url('koor_detail_kelompok') ?>?id=<?= $id ?>">
+                                <input type="hidden" name="id" value="<?= $id ?>">
+                                <div style="margin-bottom: 15px;">
+                                    <label class="form-label">Pilih Mahasiswa</label>
+                                    <select name="mhs_id" class="form-control" required>
+                                        <option value="">-- Pilih Mahasiswa Tanpa Kelompok --</option>
+                                        <?php foreach($mhs_belum_kelompok as $m): ?>
+                                            <option value="<?= $m['id'] ?>"><?= htmlspecialchars($m['npm_nip']) ?> - <?= htmlspecialchars($m['nama']) ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                                <button type="submit" name="add_member" value="1" class="btn btn-primary" style="font-size: 13px; width: 100%;"><i class="fa-solid fa-plus"></i> Tambahkan ke Kelompok</button>
+                            </form>
+                        <?php endif; ?>
+                    </div>
+                    <?php endif; ?>
+                    
                 </div>
             </div>
         </div>

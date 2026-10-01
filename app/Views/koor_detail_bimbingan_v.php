@@ -95,13 +95,13 @@
                             </div>
 
                             <div style="margin-bottom: 15px;">
-                                <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 5px;">Upload Surat Tugas Bimbingan (PDF) (Jika disetujui)</label>
-                                <input type="file" name="surat_tugas" required style="width: 100%; font-size: 12px; padding: 5px; border: 1px solid var(--border-color); border-radius: 4px;" accept="application/pdf">
+                                <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 5px;">Upload Surat Tugas Bimbingan (Wajib PDF, Maks 10MB) (Jika disetujui)</label>
+                                <input type="file" name="surat_tugas" required style="width: 100%; font-size: 12px; padding: 5px; border: 1px solid var(--border-color); border-radius: 4px;" accept="application/pdf" onchange="if(this.files[0] && this.files[0].size > 10485760){ alert('Error: Ukuran file melebihi 10MB!'); this.value=''; }">
                             </div>
 
                             <div style="margin-bottom: 20px;">
-                                <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 5px;">Alasan Penolakan (Hanya diisi jika menolak)</label>
-                                <textarea name="bimbingan_note" rows="3" style="width: 100%; font-size: 12px; padding: 8px; border: 1px solid var(--border-color); border-radius: 4px;" placeholder="Isi alasan menolak..."></textarea>
+                                <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 5px;">Catatan Koordinator / Alasan Penolakan (Jika Ada)</label>
+                                <textarea name="bimbingan_note" rows="3" style="width: 100%; font-size: 12px; padding: 8px; border: 1px solid var(--border-color); border-radius: 4px;" placeholder="Isi catatan atau alasan penolakan..."></textarea>
                             </div>
 
                             <div style="display: flex; gap: 10px;">
@@ -113,11 +113,48 @@
                             <div style="padding: 15px; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 4px; text-align: center; margin-top: 10px;">
                                 <i class="fa-solid fa-circle-check"></i> Pengajuan bimbingan ini telah <strong style="text-transform:uppercase;"><?= $bimbingan_data['status_bimbingan'] ?></strong>.
                             </div>
-                            <?php if(!empty($bimbingan_data['surat_tugas'])): ?>
+                            <?php if(!empty($bimbingan_data['file_surat_tugas'])): ?>
                                 <div style="margin-top: 15px; text-align: center;">
-                                    <a href="<?= base_url('view_pdf') ?>?file=<?= urlencode($bimbingan_data['surat_tugas']) ?>" target="_blank" class="btn btn-primary" style="font-size: 12px; padding: 5px 10px; text-decoration: none;"><i class="fa-solid fa-file-pdf"></i> Lihat Surat Tugas Diterbitkan</a>
+                                    <a href="<?= base_url('view_pdf') ?>?file=<?= urlencode($bimbingan_data['file_surat_tugas']) ?>" target="_blank" class="btn btn-primary" style="font-size: 12px; padding: 5px 10px; text-decoration: none;"><i class="fa-solid fa-file-pdf"></i> Lihat Surat Tugas Diterbitkan</a>
                                 </div>
                             <?php endif; ?>
+                            
+                            <div class="action-box" style="margin-top: 20px; text-align: left;">
+                                <h3 style="font-size: 15px; font-weight: 600; margin-bottom: 15px;"><i class="fa-solid fa-pen-to-square"></i> Ubah Dosen & Bidang</h3>
+                                <?php if($jadwal_seminar_keluar): ?>
+                                    <div class="alert-warning" style="margin-bottom: 0;">Tidak dapat mengubah data (Jadwal Sidang sudah keluar).</div>
+                                <?php else: ?>
+                                    <form method="POST" action="<?= base_url('koor_detail_bimbingan') ?>?id=<?= $bimbingan_data['id'] ?>">
+                                        <input type="hidden" name="bimbingan_id" value="<?= $bimbingan_data['id'] ?>">
+                                        <input type="hidden" name="kelompok_id" value="<?= $bimbingan_data['kelompok_id'] ?>">
+                                        <input type="hidden" name="action" value="update_dosen_bidang">
+                                        
+                                        <?php if(isset($instansi_data) && $instansi_data): ?>
+                                        <div style="margin-bottom: 15px;">
+                                            <label class="form-label">Bidang KP</label>
+                                            <select name="bidang_kp" class="form-control">
+                                                <option value="">-- Pilih Bidang KP --</option>
+                                                <option value="Jaringan Komputer" <?= ($instansi_data['bidang_kp'] == 'Jaringan Komputer') ? 'selected' : '' ?>>Jaringan Komputer</option>
+                                                <option value="Basis Data" <?= ($instansi_data['bidang_kp'] == 'Basis Data') ? 'selected' : '' ?>>Basis Data</option>
+                                                <option value="Pemrograman Sistem Informasi" <?= ($instansi_data['bidang_kp'] == 'Pemrograman Sistem Informasi') ? 'selected' : '' ?>>Pemrograman Sistem Informasi</option>
+                                                <option value="Manajemen IT" <?= ($instansi_data['bidang_kp'] == 'Manajemen IT') ? 'selected' : '' ?>>Manajemen IT</option>
+                                                <option value="Bisnis Digital" <?= ($instansi_data['bidang_kp'] == 'Bisnis Digital') ? 'selected' : '' ?>>Bisnis Digital</option>
+                                            </select>
+                                        </div>
+                                        <?php endif; ?>
+                                        <div style="margin-bottom: 15px;">
+                                            <label class="form-label">Dosen Pembimbing</label>
+                                            <select name="dospem_id" class="form-control">
+                                                <option value="">-- Pilih Dosen Pembimbing --</option>
+                                                <?php foreach($dosen_list as $d): ?>
+                                                    <option value="<?= $d['id'] ?>" <?= (isset($kelompok_data) && $kelompok_data['dospem_id'] == $d['id']) ? 'selected' : '' ?>><?= htmlspecialchars($d['nama']) ?></option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </div>
+                                        <button type="submit" class="btn btn-info" style="font-size: 13px; width: 100%; color: white;"><i class="fa-solid fa-save"></i> Simpan Perubahan</button>
+                                    </form>
+                                <?php endif; ?>
+                            </div>
                         <?php endif; ?>
                     </div>
                 </div>

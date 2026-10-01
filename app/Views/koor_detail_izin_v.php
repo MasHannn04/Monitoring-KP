@@ -68,13 +68,13 @@
                             <input type="hidden" name="instansi_id" value="<?= $instansi_id ?>">
                             
                             <div style="margin-bottom: 15px;">
-                                <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 5px;">Upload Surat Izin Digital (PDF) (Jika Disetujui)</label>
-                                <input type="file" required name="surat_izin" style="width: 100%; font-size: 12px; padding: 5px; border: 1px solid var(--border-color); border-radius: 4px;" accept="application/pdf">
+                                <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 5px;">Upload Surat Izin Digital (Wajib PDF, Maks 10MB) (Jika Disetujui)</label>
+                                <input type="file" required name="surat_izin" style="width: 100%; font-size: 12px; padding: 5px; border: 1px solid var(--border-color); border-radius: 4px;" accept="application/pdf" onchange="if(this.files[0] && this.files[0].size > 10485760){ alert('Error: Ukuran file melebihi 10MB!'); this.value=''; }">
                             </div>
 
                             <div style="margin-bottom: 20px;">
-                                <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 5px;">Alasan Penolakan (Hanya diisi jika menolak)</label>
-                                <textarea name="izin_note" rows="3" style="width: 100%; font-size: 12px; padding: 8px; border: 1px solid var(--border-color); border-radius: 4px;" placeholder="Isi alasan menolak..."></textarea>
+                                <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 5px;">Catatan Koordinator / Alasan Penolakan (Jika Ada)</label>
+                                <textarea name="izin_note" rows="3" style="width: 100%; font-size: 12px; padding: 8px; border: 1px solid var(--border-color); border-radius: 4px;" placeholder="Isi catatan atau alasan penolakan..."></textarea>
                             </div>
 
                             <div style="display: flex; gap: 10px;">
