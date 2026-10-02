@@ -12,29 +12,29 @@
         <div class="dashboard-grid" style="margin-bottom: 0;">
             <div class="stat-card">
                 <div class="stat-info">
-                    <h3>0</h3>
+                    <h3><?= $stat_belum ?></h3>
                     <p>Belum Dinilai</p>
                 </div>
                 <div class="stat-icon icon-red"><i class="fa-solid fa-pen"></i></div>
             </div>
             <div class="stat-card" style="background-color: #F0FAF0; border-color: #c3e6cb;">
                 <div class="stat-info">
-                    <h3 style="color: var(--success-green);">37</h3>
+                    <h3 style="color: var(--success-green);"><?= $stat_sudah ?></h3>
                     <p style="color: var(--success-green);">Sudah Dinilai</p>
                 </div>
                 <div class="stat-icon icon-green"><i class="fa-solid fa-check"></i></div>
             </div>
             <div class="stat-card">
                 <div class="stat-info">
-                    <h3>10</h3>
+                    <h3><?= $stat_sekretaris ?></h3>
                     <p>Sebagai Sekretaris</p>
                 </div>
                 <div class="stat-icon icon-blue"><i class="fa-solid fa-user-tie"></i></div>
             </div>
             <div class="stat-card">
                 <div class="stat-info">
-                    <h3>0</h3>
-                    <p>Peran Lainnya</p>
+                    <h3><?= $stat_ketua ?></h3>
+                    <p>Sebagai Ketua Penguji</p>
                 </div>
                 <div class="stat-icon icon-yellow"><i class="fa-solid fa-users"></i></div>
             </div>
@@ -73,11 +73,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php if(empty($list_pembimbing)): ?>
-                    <tr>
-                        <td colspan="6" style="text-align: center; color: var(--text-muted); padding: 20px;">Tidak ada jadwal seminar.</td>
-                    </tr>
-                    <?php else: ?>
+                    <?php if(!empty($list_pembimbing)): ?>
                     <?php $i=1; foreach($list_pembimbing as $s): ?>
                     <tr>
                         <td><?= $i++ ?></td>
@@ -118,11 +114,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php if(empty($list_penguji)): ?>
-                    <tr>
-                        <td colspan="6" style="text-align: center; color: var(--text-muted); padding: 20px;">Tidak ada jadwal seminar.</td>
-                    </tr>
-                    <?php else: ?>
+                    <?php if(!empty($list_penguji)): ?>
                     <?php $i=1; foreach($list_penguji as $s): ?>
                     <tr>
                         <td><?= $i++ ?></td>

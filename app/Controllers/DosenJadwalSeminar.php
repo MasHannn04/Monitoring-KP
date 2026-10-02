@@ -34,8 +34,27 @@ $q_sem = $db->query("
 ");
 $seminar_list = [];
 if($q_sem) {
-    foreach ($q_sem->getResultArray() as $r){ $seminar_list[] = $r; }
 }
+$stat_belum = 0;
+$stat_sudah = 0;
+$stat_sekretaris = 0;
+$stat_ketua = 0;
+
+$q_sudah1 = $db->query("SELECT count(DISTINCT s.id) as c FROM seminar s JOIN kelompok k ON s.kelompok_id = k.id JOIN anggota_kelompok a ON k.id = a.kelompok_id WHERE s.penguji1_id = $dosen_id AND a.nilai_penguji1 IS NOT NULL");
+$stat_sudah += $q_sudah1->getRowArray()['c'];
+
+$q_sudah2 = $db->query("SELECT count(DISTINCT s.id) as c FROM seminar s JOIN kelompok k ON s.kelompok_id = k.id JOIN anggota_kelompok a ON k.id = a.kelompok_id WHERE s.penguji2_id = $dosen_id AND a.nilai_penguji2 IS NOT NULL");
+$stat_sudah += $q_sudah2->getRowArray()['c'];
+
+$q_belum1 = $db->query("SELECT count(DISTINCT s.id) as c FROM seminar s JOIN kelompok k ON s.kelompok_id = k.id JOIN anggota_kelompok a ON k.id = a.kelompok_id WHERE s.penguji1_id = $dosen_id AND a.nilai_penguji1 IS NULL");
+$stat_belum += $q_belum1->getRowArray()['c'];
+
+$q_belum2 = $db->query("SELECT count(DISTINCT s.id) as c FROM seminar s JOIN kelompok k ON s.kelompok_id = k.id JOIN anggota_kelompok a ON k.id = a.kelompok_id WHERE s.penguji2_id = $dosen_id AND a.nilai_penguji2 IS NULL");
+$stat_belum += $q_belum2->getRowArray()['c'];
+
+$stat_sekretaris = $db->query("SELECT count(*) as c FROM seminar WHERE penguji2_id = $dosen_id")->getRowArray()['c'];
+$stat_ketua = $db->query("SELECT count(*) as c FROM seminar WHERE penguji1_id = $dosen_id")->getRowArray()['c'];
+
 $page_title = 'Dosen Jadwal Seminar';
 echo view('layout/header.php', get_defined_vars());
 echo view('layout/side-nav-dosen.php', get_defined_vars());

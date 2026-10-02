@@ -78,7 +78,7 @@
                     <div class="file-upload-wrapper" onclick="document.getElementById('file-studi').click()" style="padding: 20px; cursor: pointer; border: 2px dashed var(--primary-blue); border-radius: 6px; text-align: center; background-color: white;">
                         <i class="fa-solid fa-file-pdf" style="font-size: 24px; color: #dc3545; margin-bottom: 10px;"></i>
                         <p id="file-name-display" style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">Klik untuk upload Riwayat Studi (PDF - Maks 10MB)</p>
-                        <input type="file" id="file-studi" name="khs" style="display: none;" accept="application/pdf" required onchange="if(this.files[0] && this.files[0].size > 10485760){ alert('Error: Ukuran file melebihi 10MB!'); this.value=''; document.getElementById('file-name-display').innerText = 'Klik untuk upload Riwayat Studi (PDF - Maks 10MB)'; document.getElementById('file-name-display').style.color = 'inherit'; return; } document.getElementById('file-name-display').innerText = this.files.length > 0 ? 'Terpilih: ' + this.files[0].name : 'Klik untuk upload Riwayat Studi (PDF - Maks 10MB)'; document.getElementById('file-name-display').style.color = this.files.length > 0 ? 'green' : 'inherit';">
+                        <input type="file" id="file-studi" name="khs" style="display: none;" accept="application/pdf" onchange="if(this.files[0] && this.files[0].size > 10485760){ alert('Error: Ukuran file melebihi 10MB!'); this.value=''; document.getElementById('file-name-display').innerText = 'Klik untuk upload Riwayat Studi (PDF - Maks 10MB)'; document.getElementById('file-name-display').style.color = 'inherit'; return; } document.getElementById('file-name-display').innerText = this.files.length > 0 ? 'Terpilih: ' + this.files[0].name : 'Klik untuk upload Riwayat Studi (PDF - Maks 10MB)'; document.getElementById('file-name-display').style.color = this.files.length > 0 ? 'green' : 'inherit';">
                     </div>
                 </div>
 
@@ -124,6 +124,16 @@
                             <?php endif; ?>
                         </div>
                     </div>
+                    <?php if ($m['mahasiswa_id'] == $_SESSION['user_id'] && empty($m['file_riwayat_studi'])): ?>
+                        <div style="margin-bottom: 10px; padding: 10px; background-color: #fff3cd; border: 1px solid #ffeeba; border-radius: 4px;">
+                            <p style="font-size: 12px; color: #856404; margin-bottom: 8px;"><strong>Perhatian:</strong> Anda ditambahkan secara susulan oleh Koordinator. Anda wajib mengunggah Riwayat Studi.</p>
+                            <form method="POST" action="<?= base_url('mhs_pengajuan_kelompok') ?>" enctype="multipart/form-data" style="margin: 0; display: flex; gap: 10px; align-items: center;" onsubmit="if(!document.getElementById('khs_susulan').value) { alert('Pilih file PDF terlebih dahulu!'); return false; }">
+                                <input type="hidden" name="action" value="upload_susulan">
+                                <input type="file" id="khs_susulan" name="khs_susulan" accept="application/pdf" style="font-size: 11px; max-width: 200px;">
+                                <button type="submit" class="btn btn-primary" style="padding: 4px 10px; font-size: 11px;">Upload</button>
+                            </form>
+                        </div>
+                    <?php endif; ?>
                     <?php endforeach; ?>
                 </div>
             </div>
@@ -234,7 +244,6 @@
                             <div>
                                 <div style="font-size: 12px; font-weight: 600;"><?= htmlspecialchars($text) ?></div>
                                 <div style="font-size: 10px; color: var(--text-muted);"><?= date('d M Y', strtotime($act['created_at'])) ?></div>
-                            </div>
                         </div>
                     <?php endforeach; ?>
                     </div>

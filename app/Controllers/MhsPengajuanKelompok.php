@@ -19,7 +19,7 @@ $user_id = $_SESSION['user_id'];
 $active_group = null;
 $state = 'belum_punya';
 $rejection_reason = null;
-$q_ag = $db->query("SELECT k.*, a.is_ketua FROM anggota_kelompok a JOIN kelompok k ON a.kelompok_id = k.id WHERE a.mahasiswa_id = $user_id AND a.status_anggota = 'menerima' ORDER BY k.created_at DESC LIMIT 1");
+$q_ag = $db->query("SELECT k.*, a.is_ketua FROM anggota_kelompok a JOIN kelompok k ON a.kelompok_id = k.id WHERE a.mahasiswa_id = $user_id AND a.status_anggota = 'menerima' ORDER BY k.id DESC LIMIT 1");
 if ($q_ag->getNumRows() > 0) {
     $active_group = $q_ag->getRowArray();
     if ($active_group['status_kelompok'] == 'draft') {
@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
  return;
         }
         // 1. Insert into kelompok
-        $db->query("INSERT INTO kelompok (ketua_id, status_kelompok) VALUES ($user_id, 'draft')");
+        $db->query("INSERT INTO kelompok (ketua_id, status_kelompok, created_at) VALUES ($user_id, 'draft', NOW())");
         $kel_id = $db->insertID();
         
         // 2. Insert self
@@ -137,6 +137,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['swal_type'] = 'success';
             return redirect()->to(base_url('mhs_pengajuan_kelompok'));
     }
+    
+    if ($action == 'upload_susulan' && $active_group) {
+        $kel_id = $active_group['id'];
+        $khs_file = safe_upload_file($_FILES['khs_susulan'], 'khs');
+        if (!$khs_file) {
+            $_SESSION['swal_msg'] = 'Error: Gagal mengupload Riwayat Studi.';
+            $_SESSION['swal_type'] = 'error';
+            echo "<script>window.history.back();</script>";
+            return;
+        }
+        $db->query("UPDATE anggota_kelompok SET file_riwayat_studi = '$khs_file' WHERE kelompok_id = $kel_id AND mahasiswa_id = $user_id");
+        $_SESSION['swal_msg'] = 'Riwayat studi berhasil diunggah.';
+        $_SESSION['swal_type'] = 'success';
+        return redirect()->to(base_url('mhs_pengajuan_kelompok'));
+    }
 }
 
 // --- FETCH DATA FOR VIEW ---
@@ -175,7 +190,7 @@ $group_members = [];
 $all_accepted = true;
 if ($active_group) {
     $kel_id = $active_group['id'];
-    $q_m = $db->query("SELECT u.nama, u.npm_nip, a.is_ketua, a.status_anggota, a.mahasiswa_id FROM anggota_kelompok a JOIN users u ON a.mahasiswa_id = u.id WHERE a.kelompok_id = $kel_id AND a.status_anggota != 'dikeluarkan' ORDER BY a.is_ketua DESC");
+    $q_m = $db->query("SELECT u.nama, u.npm_nip, a.is_ketua, a.status_anggota, a.mahasiswa_id, a.file_riwayat_studi FROM anggota_kelompok a JOIN users u ON a.mahasiswa_id = u.id WHERE a.kelompok_id = $kel_id AND a.status_anggota != 'dikeluarkan' ORDER BY a.is_ketua DESC");
     foreach ($q_m->getResultArray() as $row) {
         $group_members[] = $row;
         if ($row['status_anggota'] != 'menerima') {
@@ -192,7 +207,7 @@ $q_history = $db->query("
     JOIN users u ON k.ketua_id = u.id 
     WHERE k.status_kelompok != 'draft' 
       AND k.id IN (SELECT kelompok_id FROM anggota_kelompok WHERE mahasiswa_id = $user_id)
-    ORDER BY k.created_at DESC
+    ORDER BY k.id DESC
 ");
 foreach ($q_history->getResultArray() as $row) {
     $submission_history[] = $row;

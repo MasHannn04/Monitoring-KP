@@ -29,11 +29,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if(empty($laporan_list)): ?>
-                            <tr>
-                                <td colspan="6" style="text-align: center; color: var(--text-muted); padding: 20px;">Tidak ada laporan.</td>
-                            </tr>
-                            <?php else: ?>
+                            <?php if(!empty($laporan_list)): ?>
                             <?php $i=1; foreach($laporan_list as $l): ?>
                             <tr>
                                 <td style="white-space: nowrap;"><?= $i++ ?></td>

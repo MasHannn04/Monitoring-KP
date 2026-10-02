@@ -57,7 +57,7 @@
             <?php endif; ?>
 
             <div class="card">
-                <form method="POST" enctype="multipart/form-data">
+                <form method="POST" enctype="multipart/form-data" <?= !$is_readonly ? 'onsubmit="if(!document.getElementById(\'file-laporan\').value){alert(\'Upload Laporan KP Final (PDF) wajib diisi!\'); return false;} if(!document.getElementById(\'file-tugas\').value){alert(\'Upload Surat Tugas (PDF) wajib diisi!\'); return false;} if(!document.getElementById(\'file-nilai\').value){alert(\'Upload Nilai Perusahaan (PDF) wajib diisi!\'); return false;}"' : '' ?>>
                     <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; padding-bottom: 20px;">
                         
                         <div class="form-group" style="display: flex; flex-direction: column; height: 100%; margin-bottom: 0;">
@@ -66,7 +66,7 @@
                             <div class="file-upload-wrapper" style="<?= $is_readonly ? 'background-color: #f8f9fa; cursor: not-allowed;' : 'cursor: pointer; background-color: white;' ?>" <?= !$is_readonly ? 'onclick="document.getElementById(\'file-laporan\').click()"' : '' ?>>
                                 <i class="fa-solid fa-file-pdf" style="font-size: 34px; color: #dc3545;"></i>
                                 <p style="font-size: 12px; font-weight: 600; margin-top: 12px; margin-bottom: 0; word-break: break-all; padding: 0 10px; text-align: center;" id="text-file-laporan"><?= $is_readonly ? htmlspecialchars($laporan_data['file_laporan_final']) : 'Klik untuk upload' ?></p>
-                                <input type="file" name="file_laporan_final" id="file-laporan" style="display: none;" accept="application/pdf" <?= $is_readonly ? '' : 'required onchange="if(this.files[0] && this.files[0].size > 10485760){ alert(\'Error: Ukuran file melebihi 10MB!\'); this.value=\'\'; document.getElementById(\'text-file-laporan\').innerText = \'Klik untuk upload\'; return; } document.getElementById(\'text-file-laporan\').innerText = this.files[0].name"' ?>>
+                                <input type="file" name="file_laporan_final" id="file-laporan" style="display: none;" accept="application/pdf" <?= $is_readonly ? '' : 'onchange="if(this.files[0] && this.files[0].size > 10485760){ alert(\'Error: Ukuran file melebihi 10MB!\'); this.value=\'\'; document.getElementById(\'text-file-laporan\').innerText = \'Klik untuk upload\'; return; } document.getElementById(\'text-file-laporan\').innerText = this.files[0].name"' ?>>
                             </div>
                         </div>
 
@@ -76,7 +76,7 @@
                             <div class="file-upload-wrapper" style="<?= $is_readonly ? 'background-color: #f8f9fa; cursor: not-allowed;' : 'cursor: pointer; background-color: white;' ?>" <?= !$is_readonly ? 'onclick="document.getElementById(\'file-tugas\').click()"' : '' ?>>
                                 <i class="fa-solid fa-file-signature" style="font-size: 34px; color: var(--primary-blue);"></i>
                                 <p style="font-size: 12px; font-weight: 600; margin-top: 12px; margin-bottom: 0; word-break: break-all; padding: 0 10px; text-align: center;" id="text-file-tugas"><?= $is_readonly ? htmlspecialchars($laporan_data['file_surat_tugas']) : 'Klik untuk upload' ?></p>
-                                <input type="file" name="file_surat_tugas" id="file-tugas" style="display: none;" accept="application/pdf" <?= $is_readonly ? '' : 'required onchange="if(this.files[0] && this.files[0].size > 10485760){ alert(\'Error: Ukuran file melebihi 10MB!\'); this.value=\'\'; document.getElementById(\'text-file-tugas\').innerText = \'Klik untuk upload\'; return; } document.getElementById(\'text-file-tugas\').innerText = this.files[0].name"' ?>>
+                                <input type="file" name="file_surat_tugas" id="file-tugas" style="display: none;" accept="application/pdf" <?= $is_readonly ? '' : 'onchange="if(this.files[0] && this.files[0].size > 10485760){ alert(\'Error: Ukuran file melebihi 10MB!\'); this.value=\'\'; document.getElementById(\'text-file-tugas\').innerText = \'Klik untuk upload\'; return; } document.getElementById(\'text-file-tugas\').innerText = this.files[0].name"' ?>>
                             </div>
                         </div>
 
@@ -86,7 +86,7 @@
                             <div class="file-upload-wrapper" style="<?= $is_readonly ? 'background-color: #f8f9fa; cursor: not-allowed;' : 'cursor: pointer; background-color: white;' ?>" <?= !$is_readonly ? 'onclick="document.getElementById(\'file-nilai\').click()"' : '' ?>>
                                 <i class="fa-solid fa-star-half-stroke" style="font-size: 34px; color: #FFA94D;"></i>
                                 <p style="font-size: 12px; font-weight: 600; margin-top: 12px; margin-bottom: 0; word-break: break-all; padding: 0 10px; text-align: center;" id="text-file-nilai"><?= $is_readonly ? htmlspecialchars($laporan_data['file_nilai_perusahaan']) : 'Klik untuk upload' ?></p>
-                                <input type="file" name="file_nilai_perusahaan" id="file-nilai" style="display: none;" accept="application/pdf" <?= $is_readonly ? '' : 'required onchange="if(this.files[0] && this.files[0].size > 10485760){ alert(\'Error: Ukuran file melebihi 10MB!\'); this.value=\'\'; document.getElementById(\'text-file-nilai\').innerText = \'Klik untuk upload\'; return; } document.getElementById(\'text-file-nilai\').innerText = this.files[0].name"' ?>>
+                                <input type="file" name="file_nilai_perusahaan" id="file-nilai" style="display: none;" accept="application/pdf" <?= $is_readonly ? '' : 'onchange="if(this.files[0] && this.files[0].size > 10485760){ alert(\'Error: Ukuran file melebihi 10MB!\'); this.value=\'\'; document.getElementById(\'text-file-nilai\').innerText = \'Klik untuk upload\'; return; } document.getElementById(\'text-file-nilai\').innerText = this.files[0].name"' ?>>
                             </div>
                         </div>
 
