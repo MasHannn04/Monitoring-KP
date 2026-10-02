@@ -34,6 +34,7 @@ $q_sem = $db->query("
 ");
 $seminar_list = [];
 if($q_sem) {
+    foreach ($q_sem->getResultArray() as $r){ $seminar_list[] = $r; }
 }
 $stat_belum = 0;
 $stat_sudah = 0;
